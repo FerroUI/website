@@ -13,7 +13,7 @@ requests. GitHub Pages publishes it from `main` through `.github/workflows/pages
 | `index.html` | the page |
 | `assets/css/site.css` | the styles: colour tokens for the light and dark themes, Fluent surfaces, the layout |
 | `assets/js/config.js` | the version the page shows and the release flag (below) |
-| `assets/js/site.js` | versions in the snippets, code highlighting and copy buttons, the theme switch, tabs, the crate filter, Reveal |
+| `assets/js/site.js` | versions in the snippets, code highlighting and copy buttons, the theme switch, tabs, the `cargo generate` commands of the templates, the crate filter, Reveal |
 | `assets/img/` | the logo and the screenshots (WebP, each with a 480 or 640 pixel variant) |
 | `scripts/update-crates.py` | writes the crate table from the README of FerroUI |
 | `scripts/check-site.py` | the checks of CI: local references, versions, names |

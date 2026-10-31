@@ -1,5 +1,5 @@
-// FerroUI website: versions, code highlighting and copy, theme, navigation, tabs, crate filter,
-// Reveal lighting and entrance motion. Plain JavaScript, no dependencies.
+// FerroUI website: versions, code highlighting and copy, theme, navigation, tabs, template
+// commands, crate filter, Reveal lighting and entrance motion. Plain JavaScript, no dependencies.
 (function () {
   "use strict";
 
@@ -224,13 +224,70 @@
         tab.addEventListener("click", function () { select(tab, false); });
         tab.addEventListener("keydown", function (e) {
           var next = null;
-          if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
-          else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+          var vertical = list.getAttribute("aria-orientation") === "vertical";
+          if (e.key === "ArrowRight" || (vertical && e.key === "ArrowDown")) next = tabs[(i + 1) % tabs.length];
+          else if (e.key === "ArrowLeft" || (vertical && e.key === "ArrowUp")) next = tabs[(i - 1 + tabs.length) % tabs.length];
           else if (e.key === "Home") next = tabs[0];
           else if (e.key === "End") next = tabs[tabs.length - 1];
           if (next) { e.preventDefault(); select(next, true); }
         });
       });
+    });
+  }
+
+  // The templates: each panel writes the cargo generate command of its template from its options.
+  // data-before and data-next are the lines before and after it, separated by "|"; a line that
+  // starts with "option?" (or "!option?") is written only when that checkbox is on (or off).
+  var TEMPLATES_REPO = "https://github.com/FerroUI/templates";
+  function setupTemplates() {
+    document.querySelectorAll("[data-template]").forEach(function (panel) {
+      var code = panel.querySelector("code[data-command]");
+      if (!code) return;
+      var template = panel.getAttribute("data-template");
+      var nameInput = panel.querySelector("[data-name]");
+      var controls = Array.prototype.slice.call(panel.querySelectorAll("[data-define]"));
+      function clean(text) { return text.replace(/[^A-Za-z0-9_.-]/g, ""); }
+      function valueOf(control) {
+        return control.type === "checkbox" ? (control.checked ? "true" : "false") : clean(control.value.trim());
+      }
+      function lines(attribute, name) {
+        return (panel.getAttribute(attribute) || "").split("|").filter(Boolean).map(function (line) {
+          var condition = line.match(/^(!?)([a-z_]+)\?(.*)$/);
+          if (condition) {
+            var box = panel.querySelector("[data-define='" + condition[2] + "']");
+            var on = box ? box.checked : false;
+            if (on === (condition[1] === "!")) return null;
+            line = condition[3];
+          }
+          return line.split("{name}").join(name);
+        }).filter(function (line) { return line !== null; });
+      }
+      // cargo generate names the directory of the project in kebab case (MyApp is my-app).
+      function kebab(text) {
+        return text.replace(/([a-z0-9])([A-Z])/g, "$1-$2").replace(/_/g, "-").toLowerCase();
+      }
+      function render() {
+        var name = nameInput ? clean(nameInput.value.trim()) || nameInput.defaultValue : "my-app";
+        var defines = controls.filter(function (control) {
+          if (control.hasAttribute("data-always")) return valueOf(control) !== "";
+          return valueOf(control) !== (control.getAttribute("data-default") || "");
+        }).map(function (control) { return "--define " + control.getAttribute("data-define") + "=" + valueOf(control); });
+        var command = "cargo generate --git " + TEMPLATES_REPO + " " + template + " --name " + name;
+        var parts = [command];
+        // Two defines per continuation line keep the command readable on a phone.
+        for (var i = 0; i < defines.length; i += 2) parts.push(defines.slice(i, i + 2).join(" "));
+        var text = lines("data-before", name).concat([parts.join(" \\\n    ")], lines("data-next", kebab(name))).join("\n");
+        if (code.textContent !== text) {
+          code.textContent = text;
+          highlight(code);
+        }
+      }
+      if (nameInput) nameInput.addEventListener("input", render);
+      controls.forEach(function (control) {
+        control.addEventListener("input", render);
+        control.addEventListener("change", render);
+      });
+      render();
     });
   }
 
@@ -313,6 +370,7 @@
   setupMenu();
   setupScrollSpy();
   setupTabs();
+  setupTemplates();
   setupCrates();
   setupReveal();
   setupRise();

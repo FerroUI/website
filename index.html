@@ -68,6 +68,7 @@
           <li><a href="#features">Features</a></li>
           <li><a href="#samples">Samples</a></li>
           <li><a href="#get-started">Get started</a></li>
+          <li><a href="#templates">Templates</a></li>
           <li><a href="#crates">Crates</a></li>
           <li><a href="#status">Status</a></li>
         </ul>
@@ -421,7 +422,7 @@ ferroui-themes-winui = "={{version}}"</code></pre>
         <div class="section-head rise">
           <span class="eyebrow">Get started</span>
           <h2 id="start-title">From <code>cargo new</code> to a window</h2>
-          <p>FerroUI is a set of crates released together at one version. Name the same version for every FerroUI crate.</p>
+          <p>FerroUI is a set of crates released together at one version. Name the same version for every FerroUI crate, or generate a project from one of the <a href="#templates">templates</a>.</p>
         </div>
 
         <ol class="steps">
@@ -453,7 +454,19 @@ ferroui-themes-winui = "={{version}}"</code></pre>
 
           <li class="step rise">
             <div>
-              <h3>Add the crates</h3>
+              <h3>Start from a template</h3>
+              <p>One command creates a project with its theme, its first window and its tests, in XAML with MVVM or code-behind, with builders or with <code>rsx!</code>, or as a cross-platform repository. The <a href="#templates">templates</a> list them with their options.</p>
+              <div class="code" data-label="template commands">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh">cargo install cargo-generate
+cargo generate --git https://github.com/FerroUI/templates app --name my-app</code></pre>
+              </div>
+            </div>
+          </li>
+
+          <li class="step rise">
+            <div>
+              <h3>Or add the crates yourself</h3>
               <p>A desktop application names the base library, the controls, the desktop entry point and a theme:</p>
               <div class="code" data-label="Cargo.toml dependencies">
                 <div class="code-head"><span class="file">Cargo.toml</span><span class="lang">toml</span></div>
@@ -686,7 +699,7 @@ cargo test --workspace</code></pre>
           <div class="section-head rise">
             <span class="eyebrow">App template</span>
             <h3>An application in a repository of its own</h3>
-            <p>Solitaire, Ember, FerroDesign and Calculator are set up this way: FerroUI as a git submodule, its workspace dependencies and profiles copied into the application's workspace, and FerroUI's reusable workflow for CI and GitHub Pages. The guide is <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/apps.md">docs/apps.md</a>.</p>
+            <p>Solitaire, Ember, FerroDesign and Calculator are set up this way: FerroUI as a git submodule, its workspace dependencies and profiles copied into the application's workspace, and FerroUI's reusable workflow for CI and GitHub Pages. The guide is <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/apps.md">docs/apps.md</a>. The <a href="#templates"><code>cross-platform</code> template</a> generates this layout with desktop, browser, Android and iOS hosts.</p>
           </div>
           <div class="split two rise">
             <div>
@@ -748,6 +761,255 @@ jobs:
       browser-package: my-app-browser</code></pre>
               </div>
               <p class="tab-note">The workflow checks the conventions, builds and tests under an X server, builds and smoke-tests the browser site, optionally packages Android and iOS, and deploys the site to GitHub Pages from main.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Templates -->
+    <section id="templates" aria-labelledby="templates-title">
+      <div class="wrap">
+        <div class="section-head rise">
+          <span class="eyebrow">Templates</span>
+          <h2 id="templates-title">Start a project with <code>cargo generate</code></h2>
+          <p>Project and item templates in the spirit of the <code>dotnet new</code> templates of .NET UI frameworks: XAML with MVVM or code-behind, builders, <code>rsx!</code> with hooks, a cross-platform repository with desktop, browser, Android and iOS hosts, a control library, and the items you add to a project. Each project template asks for its theme.</p>
+        </div>
+
+        <div class="split two rise">
+          <div class="code" data-label="quick start commands">
+            <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh">cargo install cargo-generate
+
+# Pick a template from the list, or name it
+cargo generate --git https://github.com/FerroUI/templates
+cargo generate --git https://github.com/FerroUI/templates app --name my-app
+cd my-app
+cargo run</code></pre>
+          </div>
+          <div class="tpl-about">
+            <p>The templates live in <a href="https://github.com/FerroUI/templates">FerroUI/templates</a>, one folder per template, and are made with <a href="https://github.com/cargo-generate/cargo-generate">cargo-generate</a>. Each option is a prompt, or <code>--define name=value</code> on the command line.</p>
+            <p>The single-crate templates name every FerroUI crate at <code>=<span data-version></span></code>. The cross-platform template uses the layout of an application repository: FerroUI as a git submodule and its reusable CI workflow.</p>
+            <div class="notice" data-release-notice role="note" hidden>
+              <svg aria-hidden="true"><use href="#i-info"></use></svg>
+              <p><strong><span data-version></span> is being released.</strong> The generated projects build once it is on crates.io; the cross-platform template builds from the submodule already.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tpl rise">
+          <div class="tpl-list card" role="tablist" aria-orientation="vertical" aria-label="Templates">
+            <button class="tpl-tab" role="tab" id="tpl-tab-app" aria-controls="tpl-app" aria-selected="true" tabindex="0" type="button"><span class="tpl-name">app</span><span class="tpl-kind">XAML with MVVM</span></button>
+            <button class="tpl-tab" role="tab" id="tpl-tab-codebehind" aria-controls="tpl-codebehind" aria-selected="false" tabindex="-1" type="button"><span class="tpl-name">app-codebehind</span><span class="tpl-kind">XAML with code-behind</span></button>
+            <button class="tpl-tab" role="tab" id="tpl-tab-declarative" aria-controls="tpl-declarative" aria-selected="false" tabindex="-1" type="button"><span class="tpl-name">declarative</span><span class="tpl-kind">Builders, no XAML</span></button>
+            <button class="tpl-tab" role="tab" id="tpl-tab-rsx" aria-controls="tpl-rsx" aria-selected="false" tabindex="-1" type="button"><span class="tpl-name">rsx</span><span class="tpl-kind">rsx!, components and hooks</span></button>
+            <button class="tpl-tab" role="tab" id="tpl-tab-cross" aria-controls="tpl-cross" aria-selected="false" tabindex="-1" type="button"><span class="tpl-name">cross-platform</span><span class="tpl-kind">Desktop, browser, Android, iOS</span></button>
+            <button class="tpl-tab" role="tab" id="tpl-tab-library" aria-controls="tpl-library" aria-selected="false" tabindex="-1" type="button"><span class="tpl-name">control-library</span><span class="tpl-kind">A templated control</span></button>
+            <button class="tpl-tab" role="tab" id="tpl-tab-window" aria-controls="tpl-window" aria-selected="false" tabindex="-1" type="button"><span class="tpl-name">window</span><span class="tpl-kind">Item: a window</span></button>
+            <button class="tpl-tab" role="tab" id="tpl-tab-user-control" aria-controls="tpl-user-control" aria-selected="false" tabindex="-1" type="button"><span class="tpl-name">user-control</span><span class="tpl-kind">Item: a user control</span></button>
+            <button class="tpl-tab" role="tab" id="tpl-tab-templated-control" aria-controls="tpl-templated-control" aria-selected="false" tabindex="-1" type="button"><span class="tpl-name">templated-control</span><span class="tpl-kind">Item: a control and its theme</span></button>
+            <button class="tpl-tab" role="tab" id="tpl-tab-resources" aria-controls="tpl-resources" aria-selected="false" tabindex="-1" type="button"><span class="tpl-name">resource-dictionary</span><span class="tpl-kind">Item: resources</span></button>
+            <button class="tpl-tab" role="tab" id="tpl-tab-styles" aria-controls="tpl-styles" aria-selected="false" tabindex="-1" type="button"><span class="tpl-name">styles</span><span class="tpl-kind">Item: a set of styles</span></button>
+          </div>
+
+          <div class="tpl-panels">
+            <div class="tpl-panel card" role="tabpanel" id="tpl-app" aria-labelledby="tpl-tab-app" tabindex="0" data-template="app" data-next="cd {name}|cargo run">
+              <h3>app <span class="badge rust">Project</span></h3>
+              <p class="tab-note">A desktop application in XAML with the MVVM pattern, as in <a href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/MiniMvvm"><code>samples/MiniMvvm</code></a> and <a href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/ReactiveUIExample"><code>samples/ReactiveUIExample</code></a>. The build script compiles the documents to Rust; the view model and the window come with tests.</p>
+              <ul class="tpl-files" aria-label="Files"><li>src/App.xaml</li><li>src/views/MainWindow.xaml</li><li>src/view_models/main_window_view_model.rs</li><li>build.rs</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="my-app" data-name spellcheck="false" autocomplete="off"></label>
+                <label class="opt"><span>Theme</span><select data-define="theme" data-default="winui">
+                  <option value="winui">WinUI 3</option><option value="fluent">Fluent</option><option value="simple">Simple</option><option value="macos">macOS 26</option><option value="material">Material 3 Expressive</option>
+                </select></label>
+                <label class="opt"><span>MVVM</span><select data-define="mvvm" data-default="minimal">
+                  <option value="minimal">Minimal view model base</option><option value="reactiveui">ReactiveUI</option>
+                </select></label>
+              </div>
+              <div class="code" data-label="the commands of the app template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cargo generate --git https://github.com/FerroUI/templates app --name my-app
+cd my-app
+cargo run</code></pre>
+              </div>
+            </div>
+
+            <div class="tpl-panel card" role="tabpanel" id="tpl-codebehind" aria-labelledby="tpl-tab-codebehind" tabindex="0" hidden data-template="app-codebehind" data-next="cd {name}|cargo run">
+              <h3>app-codebehind <span class="badge rust">Project</span></h3>
+              <p class="tab-note">A desktop application in XAML with code-behind and no view models: the window names its event handler (<code>Click="OnGreetClick"</code>) and its class implements it.</p>
+              <ul class="tpl-files" aria-label="Files"><li>src/App.xaml</li><li>src/MainWindow.xaml</li><li>src/main_window.rs</li><li>build.rs</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="my-app" data-name spellcheck="false" autocomplete="off"></label>
+                <label class="opt"><span>Theme</span><select data-define="theme" data-default="winui">
+                  <option value="winui">WinUI 3</option><option value="fluent">Fluent</option><option value="simple">Simple</option><option value="macos">macOS 26</option><option value="material">Material 3 Expressive</option>
+                </select></label>
+              </div>
+              <div class="code" data-label="the commands of the app-codebehind template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cargo generate --git https://github.com/FerroUI/templates app-codebehind --name my-app
+cd my-app
+cargo run</code></pre>
+              </div>
+            </div>
+
+            <div class="tpl-panel card" role="tabpanel" id="tpl-declarative" aria-labelledby="tpl-tab-declarative" tabindex="0" hidden data-template="declarative" data-next="cd {name}|cargo run">
+              <h3>declarative <span class="badge rust">Project</span></h3>
+              <p class="tab-note">A desktop application written in Rust with the builders of <code>ferroui-view</code> (<code>stack_panel()</code>, <code>button()</code>) and a signal the controls follow, as in <a href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/HelloWorld.Builders"><code>samples/HelloWorld.Builders</code></a>.</p>
+              <ul class="tpl-files" aria-label="Files"><li>src/main.rs</li><li>src/main_view.rs</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="my-app" data-name spellcheck="false" autocomplete="off"></label>
+                <label class="opt"><span>Theme</span><select data-define="theme" data-default="winui">
+                  <option value="winui">WinUI 3</option><option value="fluent">Fluent</option><option value="simple">Simple</option><option value="macos">macOS 26</option><option value="material">Material 3 Expressive</option>
+                </select></label>
+              </div>
+              <div class="code" data-label="the commands of the declarative template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cargo generate --git https://github.com/FerroUI/templates declarative --name my-app
+cd my-app
+cargo run</code></pre>
+              </div>
+            </div>
+
+            <div class="tpl-panel card" role="tabpanel" id="tpl-rsx" aria-labelledby="tpl-tab-rsx" tabindex="0" hidden data-template="rsx" data-next="cd {name}|cargo run">
+              <h3>rsx <span class="badge rust">Project</span></h3>
+              <p class="tab-note">A desktop application with the React-like API: <code>rsx!</code> trees, <code>#[component]</code> functions, a signal, and a component that renders again when its hook state changes (<code>use_signal</code>, <code>#[component(rerender)]</code>), as in <a href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/HelloWorld.Macros"><code>samples/HelloWorld.Macros</code></a> and <a href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/HelloWorld.Hooks"><code>samples/HelloWorld.Hooks</code></a>.</p>
+              <ul class="tpl-files" aria-label="Files"><li>src/main.rs</li><li>src/components.rs</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="my-app" data-name spellcheck="false" autocomplete="off"></label>
+                <label class="opt"><span>Theme</span><select data-define="theme" data-default="winui">
+                  <option value="winui">WinUI 3</option><option value="fluent">Fluent</option><option value="simple">Simple</option><option value="macos">macOS 26</option><option value="material">Material 3 Expressive</option>
+                </select></label>
+              </div>
+              <div class="code" data-label="the commands of the rsx template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cargo generate --git https://github.com/FerroUI/templates rsx --name my-app
+cd my-app
+cargo run</code></pre>
+              </div>
+            </div>
+
+            <div class="tpl-panel card" role="tabpanel" id="tpl-cross" aria-labelledby="tpl-tab-cross" tabindex="0" hidden data-template="cross-platform" data-next="cd {name}|scripts/setup.sh|desktop?cargo run -p {name}-desktop|!desktop?cargo test -p {name}">
+              <h3>cross-platform <span class="badge rust">Project</span></h3>
+              <p class="tab-note">An application repository laid out as <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/apps.md">docs/apps.md</a> describes: a shared crate in XAML with the MVVM pattern, the hosts you choose, FerroUI as a git submodule at <code>FerroUI/</code> and a CI workflow that calls FerroUI's <code>app.yml</code>, with the browser site on GitHub Pages. <code>scripts/setup.sh</code> adds the submodule once.</p>
+              <ul class="tpl-files" aria-label="Files"><li>MyApp/</li><li>MyApp.Desktop/</li><li>MyApp.Browser/</li><li>MyApp.Android/</li><li>MyApp.iOS/</li><li>.github/workflows/ci.yml</li><li>scripts/setup.sh</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="my-app" data-name spellcheck="false" autocomplete="off"></label>
+                <label class="opt"><span>Theme</span><select data-define="theme" data-default="winui">
+                  <option value="winui">WinUI 3</option><option value="fluent">Fluent</option><option value="simple">Simple</option><option value="macos">macOS 26</option><option value="material">Material 3 Expressive</option>
+                </select></label>
+                <label class="opt"><span>Application id</span><input type="text" value="" placeholder="com.example.myapp" data-define="app_id" data-default="" spellcheck="false" autocomplete="off"></label>
+                <fieldset class="opt opt-hosts">
+                  <legend>Hosts</legend>
+                  <label><input type="checkbox" data-define="desktop" data-default="true" checked> Desktop</label>
+                  <label><input type="checkbox" data-define="browser" data-default="true" checked> Browser</label>
+                  <label><input type="checkbox" data-define="android" data-default="true" checked> Android</label>
+                  <label><input type="checkbox" data-define="ios" data-default="true" checked> iOS</label>
+                </fieldset>
+              </div>
+              <div class="code" data-label="the commands of the cross-platform template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cargo generate --git https://github.com/FerroUI/templates cross-platform --name my-app
+cd my-app
+scripts/setup.sh
+cargo run -p my-app-desktop</code></pre>
+              </div>
+            </div>
+
+            <div class="tpl-panel card" role="tabpanel" id="tpl-library" aria-labelledby="tpl-tab-library" tabindex="0" hidden data-template="control-library" data-next="cd {name}|cargo test">
+              <h3>control-library <span class="badge rust">Project</span></h3>
+              <p class="tab-note">A library crate with a templated control: styled properties declared with <code>ferro_properties!</code>, a control theme in XAML keyed by the type of the control, the registration of both, and tests that apply the theme in a window.</p>
+              <ul class="tpl-files" aria-label="Files"><li>src/lib.rs</li><li>src/info_card.rs</li><li>src/themes/Generic.xaml</li><li>build.rs</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="my-controls" data-name spellcheck="false" autocomplete="off"></label>
+                <label class="opt"><span>Control</span><input type="text" value="InfoCard" data-define="control" data-default="InfoCard" spellcheck="false" autocomplete="off"></label>
+              </div>
+              <div class="code" data-label="the commands of the control-library template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cargo generate --git https://github.com/FerroUI/templates control-library --name my-controls
+cd my-controls
+cargo test</code></pre>
+              </div>
+            </div>
+
+            <div class="tpl-panel card" role="tabpanel" id="tpl-window" aria-labelledby="tpl-tab-window" tabindex="0" hidden data-template="window" data-before="cd my-app/src/views" data-next="# Then wire it in as README.md in the new folder says">
+              <h3>window <span class="badge">Item</span></h3>
+              <p class="tab-note">A window: a XAML document with <code>x:Class</code> and its class with <code>InitializeComponent()</code>. Its <code>README.md</code> says how to declare and register it.</p>
+              <ul class="tpl-files" aria-label="Files"><li>SettingsWindow.xaml</li><li>settings_window.rs</li><li>README.md</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="SettingsWindow" data-name spellcheck="false" autocomplete="off"></label>
+                <label class="opt"><span>XAML namespace</span><input type="text" value="MyApp.Views" data-define="namespace" data-always spellcheck="false" autocomplete="off"></label>
+              </div>
+              <div class="code" data-label="the commands of the window template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cd my-app/src/views
+cargo generate --git https://github.com/FerroUI/templates window --name SettingsWindow \
+    --define namespace=MyApp.Views
+# Then wire it in as README.md in the new folder says</code></pre>
+              </div>
+            </div>
+
+            <div class="tpl-panel card" role="tabpanel" id="tpl-user-control" aria-labelledby="tpl-tab-user-control" tabindex="0" hidden data-template="user-control" data-before="cd my-app/src/views" data-next="# Then wire it in as README.md in the new folder says">
+              <h3>user-control <span class="badge">Item</span></h3>
+              <p class="tab-note">A user control: a XAML document with <code>x:Class</code> and its class, to show as the content of a window or of another control.</p>
+              <ul class="tpl-files" aria-label="Files"><li>StatusView.xaml</li><li>status_view.rs</li><li>README.md</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="StatusView" data-name spellcheck="false" autocomplete="off"></label>
+                <label class="opt"><span>XAML namespace</span><input type="text" value="MyApp.Views" data-define="namespace" data-always spellcheck="false" autocomplete="off"></label>
+              </div>
+              <div class="code" data-label="the commands of the user-control template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cd my-app/src/views
+cargo generate --git https://github.com/FerroUI/templates user-control --name StatusView \
+    --define namespace=MyApp.Views
+# Then wire it in as README.md in the new folder says</code></pre>
+              </div>
+            </div>
+
+            <div class="tpl-panel card" role="tabpanel" id="tpl-templated-control" aria-labelledby="tpl-tab-templated-control" tabindex="0" hidden data-template="templated-control" data-before="cd my-app/src/views" data-next="# Then wire it in as README.md in the new folder says">
+              <h3>templated-control <span class="badge">Item</span></h3>
+              <p class="tab-note">A templated control: its class with the styled properties <code>Header</code> and <code>IsHighlighted</code>, and its control theme, which the application merges into its resources.</p>
+              <ul class="tpl-files" aria-label="Files"><li>badge_card.rs</li><li>BadgeCardTheme.xaml</li><li>README.md</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="BadgeCard" data-name spellcheck="false" autocomplete="off"></label>
+                <label class="opt"><span>XAML namespace</span><input type="text" value="MyApp.Views" data-define="namespace" data-always spellcheck="false" autocomplete="off"></label>
+              </div>
+              <div class="code" data-label="the commands of the templated-control template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cd my-app/src/views
+cargo generate --git https://github.com/FerroUI/templates templated-control --name BadgeCard \
+    --define namespace=MyApp.Views
+# Then wire it in as README.md in the new folder says</code></pre>
+              </div>
+            </div>
+
+            <div class="tpl-panel card" role="tabpanel" id="tpl-resources" aria-labelledby="tpl-tab-resources" tabindex="0" hidden data-template="resource-dictionary" data-before="cd my-app/src" data-next="# Then wire it in as README.md in the new folder says">
+              <h3>resource-dictionary <span class="badge">Item</span></h3>
+              <p class="tab-note">A resource dictionary in XAML, merged into the resources of the application with <code>ResourceInclude</code>.</p>
+              <ul class="tpl-files" aria-label="Files"><li>AppResources.xaml</li><li>README.md</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="AppResources" data-name spellcheck="false" autocomplete="off"></label>
+              </div>
+              <div class="code" data-label="the commands of the resource-dictionary template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cd my-app/src
+cargo generate --git https://github.com/FerroUI/templates resource-dictionary --name AppResources
+# Then wire it in as README.md in the new folder says</code></pre>
+              </div>
+            </div>
+
+            <div class="tpl-panel card" role="tabpanel" id="tpl-styles" aria-labelledby="tpl-tab-styles" tabindex="0" hidden data-template="styles" data-before="cd my-app/src" data-next="# Then wire it in as README.md in the new folder says">
+              <h3>styles <span class="badge">Item</span></h3>
+              <p class="tab-note">A set of styles in XAML, included after the theme with <code>StyleInclude</code>.</p>
+              <ul class="tpl-files" aria-label="Files"><li>AppStyles.xaml</li><li>README.md</li></ul>
+              <div class="tpl-options">
+                <label class="opt"><span>Name</span><input type="text" value="AppStyles" data-name spellcheck="false" autocomplete="off"></label>
+              </div>
+              <div class="code" data-label="the commands of the styles template">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh" data-command>cd my-app/src
+cargo generate --git https://github.com/FerroUI/templates styles --name AppStyles
+# Then wire it in as README.md in the new folder says</code></pre>
+              </div>
             </div>
           </div>
         </div>
@@ -965,6 +1227,7 @@ jobs:
           <h2 id="footer-apps">Applications</h2>
           <ul>
             <li><a href="https://github.com/FerroUI">The FerroUI organization</a></li>
+            <li><a href="https://github.com/FerroUI/templates">Project templates</a></li>
             <li><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/apps.md">App template</a></li>
             <li><a href="https://t.me/+yQ69t8M7xgwyOGZk">Community chat</a></li>
           </ul>
