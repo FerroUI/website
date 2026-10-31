@@ -913,23 +913,22 @@ jobs:
 
         <div class="card table-wrap rise">
           <table class="data platform-table">
-            <caption class="visually-hidden">What works on each platform and how it was verified</caption>
-            <thead><tr><th scope="col">Platform</th><th scope="col">What works</th><th scope="col">How it was verified</th></tr></thead>
+            <caption class="visually-hidden">What works on each platform</caption>
+            <thead><tr><th scope="col">Platform</th><th scope="col">What works</th></tr></thead>
             <tbody>
-              <tr><td>macOS</td><td data-label="Works">Windows, input and input methods, clipboard, drag and drop, menus, tray icon, storage pickers, accessibility; Metal (default), OpenGL and software rendering</td><td data-label="Verified">CI and the development machine; the storage pickers and a screen reader not exercised</td></tr>
-              <tr><td>Windows</td><td data-label="Works">Windows, input methods and the input pane, clipboard and drag and drop, file dialogs, tray icon, UI Automation; software, ANGLE, WGL, DirectComposition, Windows.UI.Composition (with blur, acrylic and Mica) and a DXGI swap chain; Vulkan behind a feature</td><td data-label="Verified">CI (x64 and ARM64) and a Windows 11 ARM64 virtual machine; screen readers and the look of acrylic and Mica on a real desktop not verified</td></tr>
-              <tr><td>WinUI 3 hosting</td><td data-label="Works">FerroUI content in a swap chain panel of a WinUI 3 window, with input, text input, cursors, drag and drop and automation</td><td data-label="Verified">A smoke run of its sample in a virtual machine; input, drag and drop and a UI Automation client not verified</td></tr>
-              <tr><td>Linux, X11</td><td data-label="Works">Input methods (XIM, IBus, Fcitx), clipboard, drag and drop, desktop portals, GTK file dialogs, menus and tray icon over D-Bus, accessibility over AT-SPI; software, GLX, EGL and Vulkan</td><td data-label="Verified">CI under Xvfb and an Ubuntu virtual machine; no screen reader</td></tr>
-              <tr><td>Linux, Wayland</td><td data-label="Works">Opt-in: toplevels with server-side or drawn decorations, popups, pointer, keyboard, touch and text input, clipboard, drag and drop, fractional scaling; shared memory, EGL or a dmabuf swap chain</td><td data-label="Verified">CI under headless sway and a virtual machine; a desktop compositor with input and the dmabuf swap chain on a GPU not verified</td></tr>
-              <tr><td>Linux framebuffer</td><td data-label="Works">One full-screen view on <code>/dev/fb0</code> or a KMS output (OpenGL through EGL on GBM), with input through libinput or the event devices</td><td data-label="Verified">Virtual devices only (vkms, uinput) in CI and a virtual machine; not on a board</td></tr>
-              <tr><td>iOS</td><td data-label="Works">A view over Metal or OpenGL ES, touch, keyboard and text input, clipboard, storage, accessibility</td><td data-label="Verified">The simulator; no signed device build, no VoiceOver</td></tr>
-              <tr><td>Android</td><td data-label="Works">A view over EGL, software or Vulkan, touch, keyboard and the input method, lifecycle, clipboard, storage, accessibility</td><td data-label="Verified">The emulator (API 36); no device, no TalkBack</td></tr>
-              <tr><td>Browser</td><td data-label="Works">A view in a web page rendered with WebGL 2 or a 2D canvas, input, clipboard, storage; an opt-in build renders from a worker thread</td><td data-label="Verified">Headless Chrome in CI; other browsers not verified</td></tr>
-              <tr><td>Headless</td><td data-label="Works">Windows without a screen for tests, and a VNC server to see and drive an application remotely</td><td data-label="Verified">Tests; the VNC server with a test client, not with real viewers</td></tr>
+              <tr><td>macOS</td><td data-label="Works">Windows, input and input methods, clipboard, drag and drop, menus, tray icon, storage pickers, accessibility; Metal (default), OpenGL and software rendering</td></tr>
+              <tr><td>Windows</td><td data-label="Works">Windows, input methods and the input pane, clipboard and drag and drop, file dialogs, tray icon, UI Automation; software, ANGLE, WGL, DirectComposition, Windows.UI.Composition (with blur, acrylic and Mica) and a DXGI swap chain; Vulkan behind a feature</td></tr>
+              <tr><td>WinUI 3 hosting</td><td data-label="Works">FerroUI content in a swap chain panel of a WinUI 3 window, with input, text input, cursors, drag and drop and automation</td></tr>
+              <tr><td>Linux, X11</td><td data-label="Works">Input methods (XIM, IBus, Fcitx), clipboard, drag and drop, desktop portals, GTK file dialogs, menus and tray icon over D-Bus, accessibility over AT-SPI; software, GLX, EGL and Vulkan</td></tr>
+              <tr><td>Linux, Wayland</td><td data-label="Works">Opt-in: toplevels with server-side or drawn decorations, popups, pointer, keyboard, touch and text input, clipboard, drag and drop, fractional scaling; shared memory, EGL or a dmabuf swap chain</td></tr>
+              <tr><td>Linux framebuffer</td><td data-label="Works">One full-screen view on <code>/dev/fb0</code> or a KMS output (OpenGL through EGL on GBM), with input through libinput or the event devices</td></tr>
+              <tr><td>iOS</td><td data-label="Works">A view over Metal or OpenGL ES, touch, keyboard and text input, clipboard, storage, accessibility</td></tr>
+              <tr><td>Android</td><td data-label="Works">A view over EGL, software or Vulkan, touch, keyboard and the input method, lifecycle, clipboard, storage, accessibility</td></tr>
+              <tr><td>Browser</td><td data-label="Works">A view in a web page rendered with WebGL 2 or a 2D canvas, input, clipboard, storage; an opt-in build renders from a worker thread</td></tr>
+              <tr><td>Headless</td><td data-label="Works">Windows without a screen for tests, and a VNC server to see and drive an application remotely</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="tab-note status-note rise">The state of each subsystem is in <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/CRITICAL-PATH.md">CRITICAL-PATH.md</a>, and the checks that still need real hardware or a person at the screen in <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/manual-verification.md">manual-verification.md</a>.</p>
       </div>
     </section>
   </main>

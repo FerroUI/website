@@ -879,7 +879,6 @@ table.crates .new { display: none; }
 :root[data-release-pending] table.crates tr[data-new] .links .pending { display: inline; }
 table.crates .links .pending { display: none; color: var(--text-3); }
 table.crates tr[hidden] { display: none; }
-.status-note { margin-top: 16px; }
 .no-results { padding: 24px; text-align: center; color: var(--text-2); }
 
 @media (max-width: 719px) {
@@ -904,7 +903,6 @@ table.crates tr[hidden] { display: none; }
 .dot.cool { background: var(--cool); }
 
 .platform-table td:nth-child(2) { min-width: 260px; }
-.platform-table td:nth-child(3) { min-width: 220px; }
 @media (max-width: 719px) {
   .platform-table thead { display: none; }
   .platform-table, .platform-table tbody, .platform-table tr, .platform-table td { display: block; width: 100%; }
