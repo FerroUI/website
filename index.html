@@ -132,7 +132,7 @@
 ferroui-base = "={{version}}"
 ferroui-controls = "={{version}}"
 ferroui-desktop = "={{version}}"
-ferroui-themes-fluent = "={{version}}"</code></pre>
+ferroui-themes-winui = "={{version}}"</code></pre>
           </div>
         </div>
       </div>
@@ -162,7 +162,7 @@ ferroui-themes-fluent = "={{version}}"</code></pre>
           <article class="card reveal feature">
             <div class="icon"><svg aria-hidden="true"><use href="#i-themes"></use></svg></div>
             <h3>Five themes</h3>
-            <p>WinUI 3, Fluent, Simple, macOS 26 and Android Material 3 Expressive, each for the whole control set.</p>
+            <p>WinUI 3 (the default), Fluent, Simple, macOS 26 and Android Material 3 Expressive, each for the whole control set.</p>
             <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/winui-theme.md">WinUI 3</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/macos26-theme.md">macOS 26</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/material-theme.md">Material</a></div>
           </article>
           <article class="card reveal feature">
@@ -461,14 +461,14 @@ ferroui-themes-fluent = "={{version}}"</code></pre>
 ferroui-base = "={{version}}"
 ferroui-controls = "={{version}}"
 ferroui-desktop = "={{version}}"
-ferroui-themes-fluent = "={{version}}"</code></pre>
+ferroui-themes-winui = "={{version}}"</code></pre>
               </div>
               <div class="notice" data-release-notice role="note" hidden>
                 <svg aria-hidden="true"><use href="#i-info"></use></svg>
                 <p><strong><span data-version></span> is being released.</strong> Until it is on crates.io, use <code data-preview-version></code>. The crates marked <em>New in <span data-version></span></em> in the <a href="#crates">crate table</a> arrive with the release.</p>
               </div>
               <p>
-                The WinUI 3 theme is <code>ferroui-themes-winui</code> (<code>WinUITheme</code>), in place of the Fluent theme or beside it.
+                The WinUI 3 theme, <code>ferroui-themes-winui</code> (<code>WinUITheme</code>), is the default; the Fluent theme is <code>ferroui-themes-fluent</code> (<code>FluentTheme</code>), in place of WinUI 3 or beside it.
                 One dependency can stand for all of them: the facade crate <code>ferroui</code>, with a prelude and features for the platforms, the themes and the backends.
                 The declarative API is <code>ferroui-view</code>, MVVM is <code>ferroui-reactiveui-controls</code> and the developer tools are <code>ferroui-diagnostics</code>.
               </p>
@@ -580,11 +580,11 @@ fn main() {
               </div>
 
               <div role="tabpanel" id="panel-rust" aria-labelledby="tab-rust" tabindex="0" hidden>
-                <p class="tab-note">An application class that creates its window when the framework has finished initialising, with everything from the prelude of the facade crate (here with the Fluent theme). The complete program is <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/src/FerroUI/examples/hello.rs"><code>hello.rs</code></a>.</p>
+                <p class="tab-note">An application class that creates its window when the framework has finished initialising, with everything from the prelude of the facade crate and the WinUI 3 theme (its feature <code>winui-theme</code>). The example <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/src/FerroUI/examples/hello.rs"><code>hello.rs</code></a> of the repository is the complete program.</p>
                 <div class="code" data-label="Cargo.toml for the facade example">
                   <div class="code-head"><span class="file">Cargo.toml</span><span class="lang">toml</span></div>
 <pre><code data-lang="toml">[dependencies]
-ferroui = "={{version}}"</code></pre>
+ferroui = { version = "={{version}}", default-features = false, features = ["desktop", "winui-theme"] }</code></pre>
                 </div>
                 <div class="code" data-label="src/main.rs for the facade example">
                   <div class="code-head"><span class="file">src/main.rs</span><span class="lang">rust</span></div>
@@ -608,7 +608,7 @@ impl NewApplication for App {
 impl ApplicationImpl for App {
     fn initialize(this: &amp;Self) {
         Self::parent_initialize(this);
-        this.styles().add(FluentTheme::new().as_style());
+        this.styles().add(WinUITheme::new().as_style());
     }
 
     fn on_framework_initialization_completed(this: &amp;Self) {
