@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <title>FerroUI: cross-platform user interfaces in Rust</title>
+  <meta name="description" content="FerroUI is a cross-platform UI framework for Rust with XAML, a WinUI 3 theme and native platform backends for macOS, Windows, Linux, iOS, Android and the browser.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f3f3f3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1c1c" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://ferroui.github.io/website/">
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FerroUI: cross-platform user interfaces in Rust">
+  <meta property="og:description" content="XAML, a WinUI 3 theme and native backends for macOS, Windows, Linux, iOS, Android and the browser.">
+  <meta property="og:url" content="https://ferroui.github.io/website/">
+  <meta property="og:image" content="https://ferroui.github.io/website/assets/img/social-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The FerroUI Control Catalog with the WinUI 3 theme on Windows 11">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <symbol id="i-xaml" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M8 6 3 12l5 6M16 6l5 6-5 6M14 4l-4 16"/></symbol>
+      <symbol id="i-rsx" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4c-2 0-3 1-3 3v2c0 1.5-.8 3-2 3 1.2 0 2 1.5 2 3v2c0 2 1 3 3 3M16 4c2 0 3 1 3 3v2c0 1.5.8 3 2 3-1.2 0-2 1.5-2 3v2c0 2-1 3-3 3"/><path d="m13 7-3 5h4l-3 5"/></g></symbol>
+      <symbol id="i-themes" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.9 1.2-1.8-.5-1-.1-2.2 1.1-2.2H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10Z"/><circle cx="7.5" cy="11.5" r="1.2"/><circle cx="10.5" cy="7.2" r="1.2"/><circle cx="15.5" cy="8" r="1.2"/></g></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 16 9 5 9-5"/></g></symbol>
+      <symbol id="i-text" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h12M4 10h16M4 14h9M4 18h7"/><path d="M18 13v8M16.3 13h3.4M16.3 21h3.4"/></g></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 9v11M11 13h7M13 17h5"/></g></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M8 17v-3M12 17v-6M16 17v-4"/><path d="m7 10 4-3 4 2 4-4"/></g></symbol>
+      <symbol id="i-flow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h13l-3-3M20 17H7l3 3"/><circle cx="20" cy="7" r="1.4"/><circle cx="4" cy="17" r="1.4"/></g></symbol>
+      <symbol id="i-reload" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v5h-5"/><path d="m12 8-2 4h4l-2 4"/></g></symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 8h18"/><path d="m10 11.5-2.5 2.5 2.5 2.5M14 11.5l2.5 2.5-2.5 2.5"/></g></symbol>
+      <symbol id="i-chip" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></g></symbol>
+      <symbol id="i-pointer" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5 18.5 10l-5.7 1.8L11 17.5 5 3.5Z"/><path d="m13 12 5 5"/></g></symbol>
+      <symbol id="i-github" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></g></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></g></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></g></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></symbol>
+      <symbol id="i-code" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="m8 7-5 5 5 5M16 7l5 5-5 5"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-min" viewBox="0 0 10 10"><path stroke="currentColor" d="M0 5h10"/></symbol>
+      <symbol id="i-max" viewBox="0 0 10 10"><rect x=".5" y=".5" width="9" height="9" rx="1" fill="none" stroke="currentColor"/></symbol>
+      <symbol id="i-close" viewBox="0 0 10 10"><path stroke="currentColor" d="m0 0 10 10M10 0 0 10"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="FerroUI, back to the top">
+        <img src="assets/img/logo.svg" width="28" height="28" alt="">
+        <span>Ferro<span class="ui">UI</span></span>
+      </a>
+      <nav class="nav" aria-label="Main" data-open="false">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#samples">Samples</a></li>
+          <li><a href="#get-started">Get started</a></li>
+          <li><a href="#crates">Crates</a></li>
+          <li><a href="#status">Status</a></li>
+        </ul>
+        <button class="icon-btn theme-toggle" type="button" aria-pressed="false" aria-label="Dark theme">
+          <svg class="moon" aria-hidden="true"><use href="#i-moon"></use></svg>
+          <svg class="sun" aria-hidden="true"><use href="#i-sun"></use></svg>
+        </button>
+        <a class="icon-btn" href="https://github.com/wieslawsoltes/FerroUI" aria-label="FerroUI on GitHub">
+          <svg aria-hidden="true"><use href="#i-github"></use></svg>
+        </a>
+        <button class="icon-btn menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Menu">
+          <svg aria-hidden="true"><use href="#i-menu"></use></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <!-- Hero -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div>
+          <a class="pill" href="https://github.com/wieslawsoltes/FerroUI/blob/main/CHANGELOG.md">
+            <span class="tag" data-version></span>
+            <span>What is new in the release</span>
+          </a>
+          <h1 id="hero-title">Cross-platform user interfaces in <span class="accent">Rust</span></h1>
+          <p class="lead">
+            FerroUI is a UI framework for Rust with <strong>XAML</strong>, a <strong>WinUI 3 theme</strong>
+            and native platform backends for macOS, Windows, Linux (X11, Wayland and the framebuffer), iOS,
+            Android and the browser: a retained-mode control library with styled properties, data binding,
+            control themes and a composition renderer.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-accent" href="#get-started">Get started <svg aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+            <a class="btn" href="#samples"><svg aria-hidden="true"><use href="#i-play"></use></svg> Samples</a>
+            <a class="btn" href="https://github.com/wieslawsoltes/FerroUI"><svg aria-hidden="true"><use href="#i-github"></use></svg> GitHub</a>
+          </div>
+          <ul class="platforms" aria-label="Platforms">
+            <li>macOS</li><li>Windows</li><li>Linux X11</li><li>Wayland</li><li>Framebuffer</li><li>iOS</li><li>Android</li><li>Browser</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual">
+          <figure class="window" aria-label="The Control Catalog">
+            <div class="window-bar" aria-hidden="true">
+              <img src="assets/img/logo.svg" width="16" height="16" alt="">
+              <span>ControlCatalog</span>
+              <span class="caption">
+                <span><svg><use href="#i-min"></use></svg></span>
+                <span><svg><use href="#i-max"></use></svg></span>
+                <span><svg><use href="#i-close"></use></svg></span>
+              </span>
+            </div>
+            <img src="assets/img/hero-catalog.webp" srcset="assets/img/hero-catalog-640.webp 640w, assets/img/hero-catalog.webp 1200w" sizes="(min-width: 1000px) 640px, calc(100vw - 32px)" width="1200" height="873" fetchpriority="high"
+                 alt="The FerroUI Control Catalog with the WinUI 3 theme on Windows 11, in a window with the Mica backdrop: a navigation pane with the control categories and a home page of control cards">
+          </figure>
+          <div class="hero-cargo code" data-label="Cargo.toml">
+            <div class="code-head"><span class="file">Cargo.toml</span></div>
+<pre><code data-lang="toml">[dependencies]
+ferroui-base = "={{version}}"
+ferroui-controls = "={{version}}"
+ferroui-desktop = "={{version}}"
+ferroui-themes-fluent = "={{version}}"</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Highlights -->
+    <section id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <div class="section-head rise">
+          <span class="eyebrow">Highlights</span>
+          <h2 id="features-title">One framework, from markup to pixels</h2>
+          <p>Controls, styling, binding, layout and rendering in Rust, released together as one set of crates at one version.</p>
+        </div>
+        <div class="features reveal-scope rise">
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-xaml"></use></svg></div>
+            <h3>XAML, at run time or compiled</h3>
+            <p>Markup is loaded at run time, or compiled to Rust source by the build script of a crate, with the framework's markup extensions.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/xaml.md">XAML design</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-rsx"></use></svg></div>
+            <h3>Declarative Rust API</h3>
+            <p>User interfaces without XAML: builders for every control, the <code>rsx!</code> macro, signals, and components with hooks and a reconciler.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/declarative-ui.md">Declarative UI</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/declarative-ui-react.md">Compared with React</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-themes"></use></svg></div>
+            <h3>Five themes</h3>
+            <p>WinUI 3, Fluent, Simple, macOS 26 and Android Material 3 Expressive, each for the whole control set.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/winui-theme.md">WinUI 3</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/macos26-theme.md">macOS 26</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/material-theme.md">Material</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-layers"></use></svg></div>
+            <h3>WinUI controls and composition</h3>
+            <p>Native WinUI controls such as NavigationView, InfoBar and NumberBox; acrylic and Mica materials, Reveal, theme shadows and connected animations.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/winui-controls.md">Controls</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/winui-composition.md">Composition</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/winui-materials.md">Materials</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-text"></use></svg></div>
+            <h3>Rich text</h3>
+            <p>RichTextBlock and RichEditBox with a text object model, RTF and the rich clipboard, and an input method connection on every platform.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/winui-rich-text.md">Rich text</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/text-rendering.md">Text rendering</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-grid"></use></svg></div>
+            <h3>TreeDataGrid</h3>
+            <p>Hierarchical and tabular data in one virtualizing view, with sorting, selection, editing and drag and drop.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/treedatagrid.md">TreeDataGrid</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-chart"></use></svg></div>
+            <h3>LiveCharts2 charts</h3>
+            <p>Cartesian and pie charts with LiveCharts2's measurement, paint and motion, in compiled XAML with live data; simple charts beside them.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/livecharts2.md">LiveCharts2</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/winui-charts.md">Charts</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-flow"></use></svg></div>
+            <h3>MVVM with ReactiveUI</h3>
+            <p>Rust ports of System.Reactive, DynamicData, Splat and ReactiveUI, with view models that are tested without a window.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/mvvm.md">MVVM guide</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-reload"></use></svg></div>
+            <h3>Hot reload</h3>
+            <p>Experimental: the literals of <code>rsx!</code>, XAML reloaded at run time with supported live components kept, and explicit Rust functions patched during development.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/development/hot-reload.md">Hot reload engine</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-tools"></use></svg></div>
+            <h3>Developer tools</h3>
+            <p>F12 opens the trees, the properties and where their values come from, styles, layout and routed events; an MCP server and a Chrome DevTools endpoint are opt-in.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI#developer-tools">Developer tools</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/mcp.md">MCP</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/devtools-cdp.md">CDP</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-chip"></use></svg></div>
+            <h3>Skia, with Vello experimental</h3>
+            <p>Skia renders through Graphite on Metal, Ganesh on OpenGL, ANGLE, WebGL and Vulkan, or in software; HarfBuzz shapes text. A Vello backend is experimental.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/render-thread.md">Render thread</a><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/vello-backend.md">Vello backend</a></div>
+          </article>
+          <article class="card reveal feature">
+            <div class="icon"><svg aria-hidden="true"><use href="#i-pointer"></use></svg></div>
+            <h3>Behaviors</h3>
+            <p>Triggers and actions in markup: about 330 custom behaviors, input events, drag and drop, responsive classes and animations.</p>
+            <div class="links"><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/behaviors.md">Behaviors</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Samples -->
+    <section id="samples" aria-labelledby="samples-title">
+      <div class="wrap">
+        <div class="section-head rise">
+          <span class="eyebrow">Samples</span>
+          <h2 id="samples-title">See it run, in the browser or on your machine</h2>
+          <p>The browser builds below are the same Rust applications as on the desktop, compiled to WebAssembly and drawn into a canvas.</p>
+        </div>
+
+        <div class="samples-sub rise">
+          <h3>Applications</h3>
+          <p>Live demos, each in a repository of its own except the catalog.</p>
+        </div>
+        <div class="samples reveal-scope rise">
+          <article class="card reveal sample">
+            <div class="shot">
+              <img src="assets/img/catalog.webp" srcset="assets/img/catalog-480.webp 480w, assets/img/catalog.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="The Control Catalog with the WinUI 3 theme on Windows 11: a navigation pane and a grid of control cards">
+            </div>
+            <div class="body">
+              <div class="meta"><span class="badge rust">Desktop</span><span class="badge">Browser</span><span class="badge">iOS</span><span class="badge">Android</span></div>
+              <h4>Control Catalog</h4>
+              <p>Every control on its own page, in the WinUI 3 theme. The same catalog runs on the desktop, on iOS, on Android and in the browser.</p>
+              <div class="actions">
+                <a class="btn btn-accent btn-sm" href="https://wieslawsoltes.github.io/FerroUI/" aria-label="Live demo of the Control Catalog"><svg aria-hidden="true"><use href="#i-play"></use></svg> Live demo</a>
+                <a class="btn btn-sm" href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/ControlCatalog" aria-label="Source of the Control Catalog"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="card reveal sample">
+            <div class="shot contain">
+              <img src="assets/img/calculator.webp" srcset="assets/img/calculator-480.webp 480w, assets/img/calculator.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="Calculator in the Standard mode in the light and dark themes, and in the Scientific mode showing sin(30) = 0.5">
+            </div>
+            <div class="body">
+              <div class="meta"><span class="badge rust">Desktop</span><span class="badge">Browser</span></div>
+              <h4>Calculator</h4>
+              <p>Microsoft Calculator on FerroUI, with its original C++ calculation engine compiled unchanged, to WebAssembly in the browser. Standard, Scientific and Programmer modes.</p>
+              <div class="actions">
+                <a class="btn btn-accent btn-sm" href="https://ferroui.github.io/calculator/" aria-label="Live demo of Calculator"><svg aria-hidden="true"><use href="#i-play"></use></svg> Live demo</a>
+                <a class="btn btn-sm" href="https://github.com/FerroUI/calculator" aria-label="Source of Calculator"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="card reveal sample">
+            <div class="shot">
+              <img src="assets/img/solitaire.webp" srcset="assets/img/solitaire-480.webp 480w, assets/img/solitaire.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="A Klondike deal of Ferro Solitaire in the browser, on a green table">
+            </div>
+            <div class="body">
+              <div class="meta"><span class="badge rust">Desktop</span><span class="badge">Browser</span></div>
+              <h4>Solitaire</h4>
+              <p>Klondike, FreeCell and Spider, with XAML pages, vector playing cards, animated card movement and timed dealing.</p>
+              <div class="actions">
+                <a class="btn btn-accent btn-sm" href="https://ferroui.github.io/Solitaire/" aria-label="Live demo of Solitaire"><svg aria-hidden="true"><use href="#i-play"></use></svg> Live demo</a>
+                <a class="btn btn-sm" href="https://github.com/FerroUI/Solitaire" aria-label="Source of Solitaire"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="card reveal sample">
+            <div class="shot">
+              <img class="only-light" src="assets/img/ember-light.webp" srcset="assets/img/ember-light-480.webp 480w, assets/img/ember-light.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="Ember, a Hacker News reader, in the light desktop theme: the front page beside a story with its comments">
+              <img class="only-dark" src="assets/img/ember-dark.webp" srcset="assets/img/ember-dark-480.webp 480w, assets/img/ember-dark.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="Ember, a Hacker News reader, in the dark desktop theme: the front page beside a story with its comments">
+            </div>
+            <div class="body">
+              <div class="meta"><span class="badge rust">Desktop</span><span class="badge">Browser</span><span class="badge">iOS</span><span class="badge">Android</span></div>
+              <h4>Ember</h4>
+              <p>An adaptive, offline-capable Hacker News reader in the WinUI 3 theme, with compiled XAML and composition animations.</p>
+              <div class="actions">
+                <a class="btn btn-accent btn-sm" href="https://ferroui.github.io/Ember/" aria-label="Live demo of Ember"><svg aria-hidden="true"><use href="#i-play"></use></svg> Live demo</a>
+                <a class="btn btn-sm" href="https://github.com/FerroUI/Ember" aria-label="Source of Ember"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="card reveal sample">
+            <div class="shot">
+              <img src="assets/img/ferrodesign.webp" srcset="assets/img/ferrodesign-480.webp 480w, assets/img/ferrodesign.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="FerroDesign editing a mobile banking design in the browser: layers on the left, phone screens on the canvas, properties on the right">
+            </div>
+            <div class="body">
+              <div class="meta"><span class="badge rust">Desktop</span><span class="badge">Browser</span></div>
+              <h4>FerroDesign</h4>
+              <p>A native design editor on the Vello backend: pages and layers, an infinite canvas, vector networks, auto-layout, components and prototypes.</p>
+              <div class="actions">
+                <a class="btn btn-accent btn-sm" href="https://ferroui.github.io/FerroDesign/" aria-label="Live demo of FerroDesign"><svg aria-hidden="true"><use href="#i-play"></use></svg> Live demo</a>
+                <a class="btn btn-sm" href="https://github.com/FerroUI/FerroDesign" aria-label="Source of FerroDesign"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="samples-sub rise">
+          <h3>In the repository</h3>
+          <p>Run them from a clone of FerroUI with the command on each card.</p>
+        </div>
+        <div class="samples reveal-scope rise">
+          <article class="card reveal sample">
+            <div class="shot">
+              <img src="assets/img/livecharts.webp" srcset="assets/img/livecharts-480.webp 480w, assets/img/livecharts.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="Charts of the LiveCharts2 port: columns with a line, and stacked areas with a legend">
+            </div>
+            <div class="body">
+              <h4>LiveChartsDemo</h4>
+              <p>Six charts in one compiled XAML view with live data: columns with a line, a doughnut, stacked areas, scatter, candlesticks and a gauge.</p>
+              <p class="caption-note">Pictured: the CartesianChart page of the Control Catalog, on the same chart controls.</p>
+              <div class="run">cargo run -p livecharts-demo --features desktop --bin livecharts-demo</div>
+              <div class="actions">
+                <a class="btn btn-sm" href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/LiveChartsDemo" aria-label="Source of LiveChartsDemo"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="card reveal sample">
+            <div class="shot" role="img" aria-label="A drawing of a gallery layout: a navigation pane and a grid of pages">
+              <div class="mock" aria-hidden="true">
+                <div class="pane"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="content"><b></b><b></b><b></b><b></b><b></b><b></b></div>
+              </div>
+            </div>
+            <div class="body">
+              <h4>WinUI Gallery</h4>
+              <p>The pinned WinUI Gallery catalog, 126 pages and 350 sample definitions with their original XAML, and native examples for a subset of the pages.</p>
+              <div class="run">cargo run -p winui-gallery --features desktop</div>
+              <div class="actions">
+                <a class="btn btn-sm" href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/WinUIGallery" aria-label="Source of WinUI Gallery"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="card reveal sample">
+            <div class="shot">
+              <img src="assets/img/designer-studio.webp" srcset="assets/img/designer-studio-480.webp 480w, assets/img/designer-studio.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="Designer Studio: an artboard with a dialog being designed, the layers on the left and the properties on the right">
+            </div>
+            <div class="body">
+              <h4>Designer Studio</h4>
+              <p>A visual XAML designer built on FerroUI: an artboard with synchronized XAML, layers, properties, layout tools, preview stages and keyframe animation.</p>
+              <div class="run">cargo run -p designer-studio</div>
+              <div class="actions">
+                <a class="btn btn-sm" href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/designer/README.md" aria-label="Documentation of Designer Studio"><svg aria-hidden="true"><use href="#i-code"></use></svg> Docs</a>
+                <a class="btn btn-sm" href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/DesignerStudio" aria-label="Source of Designer Studio"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="card reveal sample">
+            <div class="shot contain">
+              <img src="assets/img/seven-guis.webp" srcset="assets/img/seven-guis-480.webp 480w, assets/img/seven-guis.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="Six of the 7GUIs tasks: CRUD, Circle Drawer, Counter, Temperature Converter, Flight Booker and Timer">
+            </div>
+            <div class="body">
+              <h4>7GUIs</h4>
+              <p>The seven tasks of the 7GUIs benchmark, each in three styles of the declarative API: builders, <code>rsx!</code> and components with hooks.</p>
+              <div class="run">cargo run -p seven-guis-crud-macros</div>
+              <div class="actions">
+                <a class="btn btn-sm" href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/SevenGuis" aria-label="Source of 7GUIs"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="card reveal sample">
+            <div class="shot">
+              <img class="only-light" src="assets/img/view-gallery-light.webp" srcset="assets/img/view-gallery-light-480.webp 480w, assets/img/view-gallery-light.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="ViewGallery in the light theme variant: a colour spectrum beside a TreeDataGrid of programming languages">
+              <img class="only-dark" src="assets/img/view-gallery-dark.webp" srcset="assets/img/view-gallery-dark-480.webp 480w, assets/img/view-gallery-dark.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="ViewGallery in the dark theme variant: a colour spectrum beside a TreeDataGrid of programming languages">
+            </div>
+            <div class="body">
+              <h4>ViewGallery</h4>
+              <p>The declarative API with styles, the theme variant and resources, transitions, a context menu, the colour picker and the TreeDataGrid.</p>
+              <div class="run">cargo run -p view-gallery</div>
+              <div class="actions">
+                <a class="btn btn-sm" href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/ViewGallery" aria-label="Source of ViewGallery"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="card reveal sample">
+            <div class="shot">
+              <img src="assets/img/reactive-demo.webp" srcset="assets/img/reactive-demo-480.webp 480w, assets/img/reactive-demo.webp 960w" sizes="(min-width: 1200px) 380px, (min-width: 720px) 45vw, calc(100vw - 32px)" width="960" height="600" loading="lazy" decoding="async"
+                   alt="ReactiveDemo on macOS: a search for serde in a crate browser with the WinUI 3 theme">
+            </div>
+            <div class="body">
+              <h4>ReactiveDemo</h4>
+              <p>The getting-started sample of ReactiveUI: a crates.io browser on the WinUI 3 theme, with a view model, commands and bindings.</p>
+              <div class="run">cargo run -p reactive-demo</div>
+              <div class="actions">
+                <a class="btn btn-sm" href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/ReactiveDemo" aria-label="Source of ReactiveDemo"><svg aria-hidden="true"><use href="#i-code"></use></svg> Source</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Get started -->
+    <section id="get-started" aria-labelledby="start-title">
+      <div class="wrap">
+        <div class="section-head rise">
+          <span class="eyebrow">Get started</span>
+          <h2 id="start-title">From <code>cargo new</code> to a window</h2>
+          <p>FerroUI is a set of crates released together at one version. Name the same version for every FerroUI crate.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step rise">
+            <div>
+              <h3>Install the requirements</h3>
+              <ul class="req-list">
+                <li><strong>Rust 1.89 or later</strong> (the browser needs 1.93 or later).</li>
+                <li>The first build downloads a prebuilt Skia for the target, or builds it from source where no prebuilt binary matches (Vulkan on Windows), and builds HarfBuzz from source with a C++ compiler; it can take a while.</li>
+              </ul>
+              <details class="disclosure">
+                <summary>What each platform needs</summary>
+                <div class="inner table-wrap">
+                  <table class="data">
+                    <thead><tr><th scope="col">Platform</th><th scope="col">Needs</th></tr></thead>
+                    <tbody>
+                      <tr><td>macOS</td><td>macOS 11 or later and the Xcode command line tools (the platform compiles an Objective-C++ library).</td></tr>
+                      <tr><td>Windows</td><td>x64 or ARM64, the MSVC build tools; <code>libclang</code> for ANGLE (the default feature <code>angle</code>); the feature <code>vulkan</code> builds Skia from source. Hosting in WinUI 3 needs the Windows App SDK 1.6 runtime and its bootstrap library beside the executable.</td></tr>
+                      <tr><td>Linux</td><td>The development packages of fontconfig and FreeType. The system libraries (Xlib, GTK, GLib, EGL, Vulkan, Wayland, xkbcommon, libinput, libdrm, libgbm) are opened at run time; none is linked.</td></tr>
+                      <tr><td>iOS</td><td>Xcode with the iOS SDK and the targets <code>aarch64-apple-ios</code> and <code>aarch64-apple-ios-sim</code>; an application is bundled without an Xcode project (<code>scripts/ios/bundle.sh</code>).</td></tr>
+                      <tr><td>Android</td><td>The Android SDK and NDK, stable Rust with the target <code>aarch64-linux-android</code>, API level 26 or later; packaged without Gradle (<code>scripts/android/apk.sh</code>).</td></tr>
+                      <tr><td>Browser</td><td>The target <code>wasm32-unknown-emscripten</code>, Emscripten and the pinned <code>wasm-bindgen</code> command-line tool (<code>scripts/browser/setup.sh</code> installs them).</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            </div>
+          </li>
+
+          <li class="step rise">
+            <div>
+              <h3>Add the crates</h3>
+              <p>A desktop application names the base library, the controls, the desktop entry point and a theme:</p>
+              <div class="code" data-label="Cargo.toml dependencies">
+                <div class="code-head"><span class="file">Cargo.toml</span><span class="lang">toml</span></div>
+<pre><code data-lang="toml">[dependencies]
+ferroui-base = "={{version}}"
+ferroui-controls = "={{version}}"
+ferroui-desktop = "={{version}}"
+ferroui-themes-fluent = "={{version}}"</code></pre>
+              </div>
+              <div class="notice" data-release-notice role="note" hidden>
+                <svg aria-hidden="true"><use href="#i-info"></use></svg>
+                <p><strong><span data-version></span> is being released.</strong> Until it is on crates.io, use <code data-preview-version></code>. The crates marked <em>New in <span data-version></span></em> in the <a href="#crates">crate table</a> arrive with the release.</p>
+              </div>
+              <p>
+                The WinUI 3 theme is <code>ferroui-themes-winui</code> (<code>WinUITheme</code>), in place of the Fluent theme or beside it.
+                One dependency can stand for all of them: the facade crate <code>ferroui</code>, with a prelude and features for the platforms, the themes and the backends.
+                The declarative API is <code>ferroui-view</code>, MVVM is <code>ferroui-reactiveui-controls</code> and the developer tools are <code>ferroui-diagnostics</code>.
+              </p>
+            </div>
+          </li>
+
+          <li class="step rise">
+            <div>
+              <h3>Write a window</h3>
+              <p>Hello, World! in the WinUI 3 theme, in three of the ways FerroUI offers.</p>
+              <div class="tabs" role="tablist" aria-label="Hello, World! styles">
+                <button class="tab" role="tab" id="tab-rsx" aria-controls="panel-rsx" aria-selected="true" tabindex="0" type="button">rsx! and signals</button>
+                <button class="tab" role="tab" id="tab-xaml" aria-controls="panel-xaml" aria-selected="false" tabindex="-1" type="button">XAML</button>
+                <button class="tab" role="tab" id="tab-rust" aria-controls="panel-rust" aria-selected="false" tabindex="-1" type="button">Rust objects</button>
+              </div>
+
+              <div role="tabpanel" id="panel-rsx" aria-labelledby="tab-rsx" tabindex="0">
+                <p class="tab-note">A component with a button that counts its clicks; the count is a signal that the text of the button follows. From <a href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/HelloWorld.Macros"><code>samples/HelloWorld.Macros</code></a>.</p>
+                <div class="split two">
+                  <div class="code" data-label="Cargo.toml for the rsx! example">
+                    <div class="code-head"><span class="file">Cargo.toml</span><span class="lang">toml</span></div>
+<pre><code data-lang="toml">[dependencies]
+ferroui-base = "={{version}}"
+ferroui-view = { version = "={{version}}", features = ["desktop"] }
+ferroui-themes-winui = "={{version}}"</code></pre>
+                  </div>
+                  <div class="code" data-label="run command">
+                    <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh">cargo new hello-ferroui
+cd hello-ferroui
+cargo run</code></pre>
+                  </div>
+                </div>
+                <div class="code" data-label="src/main.rs for the rsx! example">
+                  <div class="code-head"><span class="file">src/main.rs</span><span class="lang">rust</span></div>
+<pre><code data-lang="rust">use ferroui_base::layout::{HorizontalAlignment, VerticalAlignment};
+use ferroui_view::prelude::*;
+
+/// The content of the window.
+#[component]
+fn Hello() -&gt; Element {
+    let clicks = signal(0);
+    rsx! {
+        StackPanel { horizontal_alignment: HorizontalAlignment::Center, vertical_alignment: VerticalAlignment::Center, spacing: 12.0,
+            TextBlock { text: "Hello, World!", font_size: 28.0 }
+            Button { name: "Count", horizontal_alignment: HorizontalAlignment::Center, on_click: move |_| clicks.update(|c| *c += 1),
+                TextBlock { text: move || clicked_text(clicks.get()) }
+            }
+        }
+    }
+}
+
+/// The text of the button after `clicks` clicks.
+fn clicked_text(clicks: i32) -&gt; String {
+    match clicks {
+        1 =&gt; "Clicked 1 time".to_string(),
+        _ =&gt; format!("Clicked {clicks} times"),
+    }
+}
+
+fn main() {
+    launch_themed(
+        || ferroui_themes_winui::WinUITheme::new().as_style(),
+        || window().title("Hello, World!").width(400.0).height(240.0).child(Hello()).into(),
+        |_| {},
+    );
+}</code></pre>
+                </div>
+              </div>
+
+              <div role="tabpanel" id="panel-xaml" aria-labelledby="tab-xaml" tabindex="0" hidden>
+                <p class="tab-note">The application declares the theme, the window its content; the build script compiles both to Rust with <code>ferroui-build</code>. The complete crate is <a href="https://github.com/wieslawsoltes/FerroUI/tree/main/samples/HelloWorld"><code>samples/HelloWorld</code></a> (<code>cargo run -p hello-world</code> in a clone).</p>
+                <div class="split two">
+                  <div class="code" data-label="App.xaml">
+                    <div class="code-head"><span class="file">App.xaml</span><span class="lang">xml</span></div>
+<pre><code data-lang="xml">&lt;Application xmlns="https://github.com/ferroui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="HelloWorld.App"&gt;
+  &lt;Application.Styles&gt;
+    &lt;WinUITheme /&gt;
+  &lt;/Application.Styles&gt;
+&lt;/Application&gt;</code></pre>
+                  </div>
+                  <div class="code" data-label="MainWindow.xaml">
+                    <div class="code-head"><span class="file">MainWindow.xaml</span><span class="lang">xml</span></div>
+<pre><code data-lang="xml">&lt;Window xmlns="https://github.com/ferroui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="HelloWorld.MainWindow"
+        Title="Hello, World!"
+        Width="400" Height="240"&gt;
+  &lt;TextBlock Text="Hello, World!"
+             FontSize="28"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center" /&gt;
+&lt;/Window&gt;</code></pre>
+                  </div>
+                </div>
+                <div class="code" data-label="XAML with bindings">
+                  <div class="code-head"><span class="file">View.xaml</span><span class="lang">xml</span></div>
+<pre><code data-lang="xml">&lt;Window xmlns="https://github.com/ferroui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Hello"&gt;
+  &lt;StackPanel Margin="16" Spacing="8"&gt;
+    &lt;TextBlock Text="{Binding Greeting}" /&gt;
+    &lt;Button Content="Click" Command="{Binding ClickCommand}" /&gt;
+  &lt;/StackPanel&gt;
+&lt;/Window&gt;</code></pre>
+                </div>
+              </div>
+
+              <div role="tabpanel" id="panel-rust" aria-labelledby="tab-rust" tabindex="0" hidden>
+                <p class="tab-note">An application class that creates its window when the framework has finished initialising, with everything from the prelude of the facade crate (here with the Fluent theme). The complete program is <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/src/FerroUI/examples/hello.rs"><code>hello.rs</code></a>.</p>
+                <div class="code" data-label="Cargo.toml for the facade example">
+                  <div class="code-head"><span class="file">Cargo.toml</span><span class="lang">toml</span></div>
+<pre><code data-lang="toml">[dependencies]
+ferroui = "={{version}}"</code></pre>
+                </div>
+                <div class="code" data-label="src/main.rs for the facade example">
+                  <div class="code-head"><span class="file">src/main.rs</span><span class="lang">rust</span></div>
+<pre><code data-lang="rust">use ferroui::prelude::*;
+use std::rc::Rc;
+
+#[repr(C)]
+pub struct App {
+    base: Application,
+}
+
+ferro_class!(App: Application);
+ferro_impl_classes!(App: FerroObjectImpl);
+
+impl NewApplication for App {
+    fn new_application() -&gt; Ref&lt;Self&gt; {
+        instantiate(Self { base: Application::construct() })
+    }
+}
+
+impl ApplicationImpl for App {
+    fn initialize(this: &amp;Self) {
+        Self::parent_initialize(this);
+        this.styles().add(FluentTheme::new().as_style());
+    }
+
+    fn on_framework_initialization_completed(this: &amp;Self) {
+        let lifetime = this.application_lifetime();
+        if let Some(desktop) =
+            lifetime.as_ref().and_then(|lifetime| lifetime.as_classic_desktop_style_application_lifetime())
+        {
+            desktop.set_main_window(Some(create_main_window()));
+        }
+        Self::parent_on_framework_initialization_completed(this);
+    }
+}
+
+fn create_main_window() -&gt; Ref&lt;Window&gt; {
+    let text = TextBlock::new();
+    text.set_text(Some("Hello from FerroUI"));
+    text.set_font_size(24.0);
+
+    let button = Button::new();
+    button.set_content(Some(Rc::new("Click me".to_string())));
+    button.click(|_, _| println!("Button clicked"));
+
+    let panel = StackPanel::new();
+    panel.set_spacing(12.0);
+    panel.children().add(text);
+    panel.children().add(button);
+
+    let window = Window::new();
+    window.set_title(Some("Hello".to_string()));
+    window.set_content(Some(Control::boxed(panel)));
+    window
+}
+
+fn main() -&gt; std::process::ExitCode {
+    let args: Vec&lt;String&gt; = std::env::args().skip(1).collect();
+    let exit_code = AppBuilder::configure::&lt;App&gt;()
+        .use_platform_detect()
+        .start_with_classic_desktop_lifetime(&amp;args);
+    std::process::ExitCode::from(exit_code as u8)
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="step rise">
+            <div>
+              <h3>Explore the repository</h3>
+              <p>Clone FerroUI to run the samples, the examples and the tests.</p>
+              <div class="code" data-label="clone and run commands">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh">git clone https://github.com/wieslawsoltes/FerroUI.git
+cd FerroUI
+
+# Hello, World! in XAML, and with builders, rsx! and hooks
+cargo run -p hello-world
+cargo run -p hello-world-builders
+cargo run -p hello-world-macros
+cargo run -p hello-world-hooks
+
+# The ControlCatalog sample application
+cargo run -p control-catalog-desktop
+
+# The gallery of the WinUI theme
+cargo run -p winui-theme-gallery --bin winui-theme-gallery
+
+# The tests of the workspace
+cargo test --workspace</code></pre>
+              </div>
+            </div>
+          </li>
+        </ol>
+
+        <div class="template">
+          <div class="section-head rise">
+            <span class="eyebrow">App template</span>
+            <h3>An application in a repository of its own</h3>
+            <p>Solitaire, Ember, FerroDesign and Calculator are set up this way: FerroUI as a git submodule, its workspace dependencies and profiles copied into the application's workspace, and FerroUI's reusable workflow for CI and GitHub Pages. The guide is <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/apps.md">docs/apps.md</a>.</p>
+          </div>
+          <div class="split two rise">
+            <div>
+              <div class="code" data-label="repository layout">
+                <div class="code-head"><span class="file">Layout</span><span class="lang">text</span></div>
+<pre><code data-lang="text">MyApp/
+  FerroUI/                     the submodule
+  .cargo/config.toml           includes FerroUI/.cargo/config.toml
+  .github/workflows/ci.yml     calls FerroUI's app.yml
+  Cargo.toml                   the workspace, with the FerroUI blocks
+  Cargo.lock                   committed (CI builds with --locked)
+  src/... or MyApp/...         the crates of the application
+  MyApp.Browser/               the browser host, with wwwroot/
+  README.md, LICENSE, NOTICE.md</code></pre>
+              </div>
+              <div class="code" data-label="setup commands">
+                <div class="code-head"><span class="file term">Terminal</span><span class="lang">sh</span></div>
+<pre><code data-lang="sh">git submodule add https://github.com/wieslawsoltes/FerroUI.git FerroUI
+
+# Write the FerroUI blocks of Cargo.toml (CI runs it with --check)
+python3 FerroUI/scripts/apps/sync-workspace.py
+
+# Start from the lock file the framework is tested with
+cp FerroUI/Cargo.lock Cargo.lock
+cargo metadata --format-version 1 &gt; /dev/null
+
+# Publish the browser build with GitHub Pages
+gh api -X POST repos/FerroUI/MyApp/pages -f build_type=workflow</code></pre>
+              </div>
+            </div>
+            <div>
+              <div class="code" data-label="CI workflow">
+                <div class="code-head"><span class="file">.github/workflows/ci.yml</span><span class="lang">yaml</span></div>
+<pre><code data-lang="yaml">name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  app:
+    uses: wieslawsoltes/FerroUI/.github/workflows/app.yml@main
+    with:
+      test: |
+        -p my-app
+      check: |
+        -p my-app-desktop
+      browser-package: my-app-browser</code></pre>
+              </div>
+              <p class="tab-note">The workflow checks the conventions, builds and tests under an X server, builds and smoke-tests the browser site, optionally packages Android and iOS, and deploys the site to GitHub Pages from main.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Crates -->
+    <section id="crates" aria-labelledby="crates-title">
+      <div class="wrap">
+        <div class="section-head rise">
+          <span class="eyebrow">Crates</span>
+          <h2 id="crates-title">The crates of a release</h2>
+          <p>Every crate is released at the same version and depends on the others at exactly that version. Search by name or purpose, or narrow the list to a group.</p>
+        </div>
+        <div class="crate-tools">
+          <label class="field">
+            <span class="visually-hidden">Search the crates</span>
+            <svg aria-hidden="true"><use href="#i-search"></use></svg>
+            <input id="crate-search" type="search" placeholder="Search crates, for example theme or xaml" autocomplete="off" spellcheck="false" aria-describedby="crate-count">
+          </label>
+          <div class="chips" role="group" aria-label="Crate group">
+            <button class="chip" type="button" data-group="all" aria-pressed="true">All</button>
+            <button class="chip" type="button" data-group="core" aria-pressed="false">Core</button>
+            <button class="chip" type="button" data-group="controls" aria-pressed="false">Controls and themes</button>
+            <button class="chip" type="button" data-group="markup" aria-pressed="false">Markup and build</button>
+            <button class="chip" type="button" data-group="render" aria-pressed="false">Render and text</button>
+            <button class="chip" type="button" data-group="platforms" aria-pressed="false">Platforms</button>
+            <button class="chip" type="button" data-group="tools" aria-pressed="false">Tools</button>
+          </div>
+        </div>
+        <p class="crate-count" id="crate-count" aria-live="polite"></p>
+        <div class="card crates-card">
+          <div class="crates-scroll" tabindex="0" role="region" aria-label="Crate table, scrollable">
+          <table class="crates">
+            <caption class="visually-hidden">The published FerroUI crates with their descriptions and links to crates.io and docs.rs</caption>
+            <thead>
+              <tr><th scope="col">Crate</th><th scope="col">Description</th><th scope="col">Group</th><th scope="col">Links</th></tr>
+            </thead>
+            <tbody>
+<!-- crates:begin (written by scripts/update-crates.py from the crate table of the FerroUI README; do not edit) -->
+              <tr data-group="core" data-new><td class="name"><a href="https://crates.io/crates/ferroui-protranslate-core">ferroui-protranslate-core</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Framework-independent translation, culture and globalization services for FerroUI</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-protranslate-core" aria-label="ferroui-protranslate-core on crates.io">crates.io</a><a href="https://docs.rs/ferroui-protranslate-core" aria-label="ferroui-protranslate-core on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core" data-new><td class="name"><a href="https://crates.io/crates/ferroui-protranslate-formats">ferroui-protranslate-formats</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Loss-aware localization catalog import and export for ProTranslate</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-protranslate-formats" aria-label="ferroui-protranslate-formats on crates.io">crates.io</a><a href="https://docs.rs/ferroui-protranslate-formats" aria-label="ferroui-protranslate-formats on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core"><td class="name"><a href="https://crates.io/crates/ferroui-system">ferroui-system</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The parts of the .NET base class library that FerroUI and its reusable libraries share: thread-local variables for every target, events, property and collection change notification, cancellation</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-system" aria-label="ferroui-system on crates.io">crates.io</a><a href="https://docs.rs/ferroui-system" aria-label="ferroui-system on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core"><td class="name"><a href="https://crates.io/crates/ferroui-base">ferroui-base</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The base library of FerroUI: the property system, layout, input, styling, media, text, animation, data binding and the compositor</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-base" aria-label="ferroui-base on crates.io">crates.io</a><a href="https://docs.rs/ferroui-base" aria-label="ferroui-base on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core"><td class="name"><a href="https://crates.io/crates/ferroui-reactive">ferroui-reactive</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">A port of Rx.NET (System.Reactive) for FerroUI: observable sequences, their operators, schedulers, disposables and subjects, independent of the user interface</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-reactive" aria-label="ferroui-reactive on crates.io">crates.io</a><a href="https://docs.rs/ferroui-reactive" aria-label="ferroui-reactive on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core"><td class="name"><a href="https://crates.io/crates/ferroui-dynamic-data">ferroui-dynamic-data</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">A port of DynamicData for FerroUI: reactive collections, change sets, observable caches and lists with their operators, independent of the user interface</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-dynamic-data" aria-label="ferroui-dynamic-data on crates.io">crates.io</a><a href="https://docs.rs/ferroui-dynamic-data" aria-label="ferroui-dynamic-data on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core"><td class="name"><a href="https://crates.io/crates/ferroui-reactive-testing">ferroui-reactive-testing</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">A port of Microsoft.Reactive.Testing for ferroui-reactive: the virtual-time test scheduler, recorded notifications, hot and cold test observables and their assertions</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-reactive-testing" aria-label="ferroui-reactive-testing on crates.io">crates.io</a><a href="https://docs.rs/ferroui-reactive-testing" aria-label="ferroui-reactive-testing on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core"><td class="name"><a href="https://crates.io/crates/ferroui-splat">ferroui-splat</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">A port of Splat for FerroUI: the service locator with its dependency resolvers, logging, mode detection, feature usage tracking and the application builder, independent of the user interface</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-splat" aria-label="ferroui-splat on crates.io">crates.io</a><a href="https://docs.rs/ferroui-splat" aria-label="ferroui-splat on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core" data-new><td class="name"><a href="https://crates.io/crates/ferroui-dependency-injection">ferroui-dependency-injection</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Microsoft.Extensions.DependencyInjection for Rust: thread-local services, scopes, keyed resolution and constructor factories, independent of the user interface</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-dependency-injection" aria-label="ferroui-dependency-injection on crates.io">crates.io</a><a href="https://docs.rs/ferroui-dependency-injection" aria-label="ferroui-dependency-injection on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core"><td class="name"><a href="https://crates.io/crates/ferroui-reactiveui">ferroui-reactiveui</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">A port of ReactiveUI for FerroUI, in its System.Reactive flavour with the run time of ReactiveUI.Binding: reactive objects, commands, property observation, bindings, view location, activation and routing for MVVM, independent of the user interface</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-reactiveui" aria-label="ferroui-reactiveui on crates.io">crates.io</a><a href="https://docs.rs/ferroui-reactiveui" aria-label="ferroui-reactiveui on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core"><td class="name"><a href="https://crates.io/crates/ferroui-reactiveui-testing">ferroui-reactiveui-testing</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">A port of ReactiveUI.Testing for ferroui-reactiveui: running code with test schedulers, the builders of test data and the helpers of tests of view models</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui-reactiveui-testing" aria-label="ferroui-reactiveui-testing on crates.io">crates.io</a><a href="https://docs.rs/ferroui-reactiveui-testing" aria-label="ferroui-reactiveui-testing on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="core"><td class="name"><a href="https://crates.io/crates/ferroui">ferroui</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">FerroUI in one dependency: the facade crate that re-exports the common crates under short names, with a prelude and features that choose the platform, the theme and the backends</td><td class="group">Core</td><td class="links"><a href="https://crates.io/crates/ferroui" aria-label="ferroui on crates.io">crates.io</a><a href="https://docs.rs/ferroui" aria-label="ferroui on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-static-view-locator-macros">ferroui-static-view-locator-macros</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The attributes #[static_view_locator] and #[static_view_mapping] of ferroui-static-view-locator</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-static-view-locator-macros" aria-label="ferroui-static-view-locator-macros on crates.io">crates.io</a><a href="https://docs.rs/ferroui-static-view-locator-macros" aria-label="ferroui-static-view-locator-macros on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-controls">ferroui-controls</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The controls of FerroUI: the application model, top levels, the control set and automation peers</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-controls" aria-label="ferroui-controls on crates.io">crates.io</a><a href="https://docs.rs/ferroui-controls" aria-label="ferroui-controls on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-fonts-inter">ferroui-fonts-inter</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The Inter font family as an embedded font collection of FerroUI</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-fonts-inter" aria-label="ferroui-fonts-inter on crates.io">crates.io</a><a href="https://docs.rs/ferroui-fonts-inter" aria-label="ferroui-fonts-inter on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-livecharts">ferroui-livecharts</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">LiveCharts2 chart calculation, geometry, interaction and animation for FerroUI</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-livecharts" aria-label="ferroui-livecharts on crates.io">crates.io</a><a href="https://docs.rs/ferroui-livecharts" aria-label="ferroui-livecharts on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-reactiveui-controls">ferroui-reactiveui-controls</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The integration of ReactiveUI with FerroUI: the scheduler of the dispatcher, property observation and command binding for FerroUI objects, activation, the reactive views and view hosts, the data-template hook, suspension and use_reactive_ui on the application builder</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-reactiveui-controls" aria-label="ferroui-reactiveui-controls on crates.io">crates.io</a><a href="https://docs.rs/ferroui-reactiveui-controls" aria-label="ferroui-reactiveui-controls on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-static-view-locator">ferroui-static-view-locator</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">View locators generated at build time for FerroUI: view models mapped to views by naming convention, contracts and explicit mappings, without reflection</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-static-view-locator" aria-label="ferroui-static-view-locator on crates.io">crates.io</a><a href="https://docs.rs/ferroui-static-view-locator" aria-label="ferroui-static-view-locator on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-treedatagrid-core">ferroui-treedatagrid-core</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The framework-neutral part of FerroUI&#x27;s TreeDataGrid: flat and hierarchical sources, columns, rows, sorting, expansion, and row and cell selection</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-treedatagrid-core" aria-label="ferroui-treedatagrid-core on crates.io">crates.io</a><a href="https://docs.rs/ferroui-treedatagrid-core" aria-label="ferroui-treedatagrid-core on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-view-macros">ferroui-view-macros</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The rsx! and #[component] macros of ferroui-view, the declarative Rust API of FerroUI</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-view-macros" aria-label="ferroui-view-macros on crates.io">crates.io</a><a href="https://docs.rs/ferroui-view-macros" aria-label="ferroui-view-macros on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-xaml-behaviors-animations">ferroui-xaml-behaviors-animations</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Reusable animations of the FerroUI behaviors: key-frame animation factories and runners, composition animation catalogs (entrance, exit, attention and motion presets), fade, scale, rotate, slide, tilt, orbit and parallax effects, the selection indicator animation and transition helpers</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-xaml-behaviors-animations" aria-label="ferroui-xaml-behaviors-animations on crates.io">crates.io</a><a href="https://docs.rs/ferroui-xaml-behaviors-animations" aria-label="ferroui-xaml-behaviors-animations on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-controls-charts">ferroui-controls-charts</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Native FerroUI charts: line, area and bar series, category and calendar axes, legends, markers and labels</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-controls-charts" aria-label="ferroui-controls-charts on crates.io">crates.io</a><a href="https://docs.rs/ferroui-controls-charts" aria-label="ferroui-controls-charts on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-controls-livecharts">ferroui-controls-livecharts</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Native FerroUI chart controls using the LiveCharts2 Rust chart engines</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-controls-livecharts" aria-label="ferroui-controls-livecharts on crates.io">crates.io</a><a href="https://docs.rs/ferroui-controls-livecharts" aria-label="ferroui-controls-livecharts on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-controls-repeater">ferroui-controls-repeater</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The ItemsRepeater of FerroUI, a port of the Repeater of WinUI: virtualizing stack, uniform grid, flow and lined-flow layouts, element factories, recycling, phasing, transitions and selection</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-controls-repeater" aria-label="ferroui-controls-repeater on crates.io">crates.io</a><a href="https://docs.rs/ferroui-controls-repeater" aria-label="ferroui-controls-repeater on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-dialogs">ferroui-dialogs</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The managed dialogs of FerroUI: the managed file chooser, the managed storage provider and the about dialog</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-dialogs" aria-label="ferroui-dialogs on crates.io">crates.io</a><a href="https://docs.rs/ferroui-dialogs" aria-label="ferroui-dialogs on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-protranslate">ferroui-protranslate</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Native FerroUI bindings, attached properties and XAML extensions for ProTranslate localization</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-protranslate" aria-label="ferroui-protranslate on crates.io">crates.io</a><a href="https://docs.rs/ferroui-protranslate" aria-label="ferroui-protranslate on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-themes-fluent">ferroui-themes-fluent</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The FerroUI Fluent theme: control themes, colour palettes and resources for the control set, in light and dark variants</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-themes-fluent" aria-label="ferroui-themes-fluent on crates.io">crates.io</a><a href="https://docs.rs/ferroui-themes-fluent" aria-label="ferroui-themes-fluent on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-controls-treedatagrid">ferroui-controls-treedatagrid</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The TreeDataGrid control of FerroUI: hierarchical and tabular data in one virtualizing view, with sorting, selection, editing, drag and drop and its control themes</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-controls-treedatagrid" aria-label="ferroui-controls-treedatagrid on crates.io">crates.io</a><a href="https://docs.rs/ferroui-controls-treedatagrid" aria-label="ferroui-controls-treedatagrid on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-themes-macos">ferroui-themes-macos</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The FerroUI macOS 26 theme: compiled control templates, semantic materials and accessible motion</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-themes-macos" aria-label="ferroui-themes-macos on crates.io">crates.io</a><a href="https://docs.rs/ferroui-themes-macos" aria-label="ferroui-themes-macos on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-themes-material">ferroui-themes-material</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Android Material 3 Expressive theme for FerroUI with compiled XAML, light and dark color schemes, expressive motion and touch-first control templates</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-themes-material" aria-label="ferroui-themes-material on crates.io">crates.io</a><a href="https://docs.rs/ferroui-themes-material" aria-label="ferroui-themes-material on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-themes-simple">ferroui-themes-simple</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The FerroUI Simple theme: control themes and resources for the control set, in light and dark variants</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-themes-simple" aria-label="ferroui-themes-simple on crates.io">crates.io</a><a href="https://docs.rs/ferroui-themes-simple" aria-label="ferroui-themes-simple on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-controls-color-picker">ferroui-controls-color-picker</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The colour picker library of FerroUI: ColorPicker, ColorView, ColorSpectrum, ColorSlider, ColorPreviewer, the colour palettes and their control themes</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-controls-color-picker" aria-label="ferroui-controls-color-picker on crates.io">crates.io</a><a href="https://docs.rs/ferroui-controls-color-picker" aria-label="ferroui-controls-color-picker on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-devtools">ferroui-devtools</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Opt-in Chrome DevTools Protocol target for FerroUI applications</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-devtools" aria-label="ferroui-devtools on crates.io">crates.io</a><a href="https://docs.rs/ferroui-devtools" aria-label="ferroui-devtools on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-themes-winui">ferroui-themes-winui</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The FerroUI WinUI theme: the control styles, templates and theme resources of WinUI 3, in light, dark and high contrast variants</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-themes-winui" aria-label="ferroui-themes-winui on crates.io">crates.io</a><a href="https://docs.rs/ferroui-themes-winui" aria-label="ferroui-themes-winui on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-diagnostics">ferroui-diagnostics</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The developer tools of FerroUI: the logical and visual trees, the properties and their value sources, routed events, the layout explorer and screenshots of a running application</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-diagnostics" aria-label="ferroui-diagnostics on crates.io">crates.io</a><a href="https://docs.rs/ferroui-diagnostics" aria-label="ferroui-diagnostics on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-controls-inking">ferroui-controls-inking</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The inking controls of FerroUI, a port of WinUI&#x27;s: InkCanvas, the InkPresenter services, stencils, custom drying, InkToolbar with its WinUI theme, the portable ink format and the clipboard, and the ink services of Windows</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-controls-inking" aria-label="ferroui-controls-inking on crates.io">crates.io</a><a href="https://docs.rs/ferroui-controls-inking" aria-label="ferroui-controls-inking on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls"><td class="name"><a href="https://crates.io/crates/ferroui-view">ferroui-view</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">A declarative Rust API for FerroUI user interfaces without XAML: element builders generated for every control, an rsx! macro, signals that properties follow, components that run again with hooks and a reconciler</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-view" aria-label="ferroui-view on crates.io">crates.io</a><a href="https://docs.rs/ferroui-view" aria-label="ferroui-view on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-xaml-interactivity">ferroui-xaml-interactivity</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The behaviors object model of FerroUI: attached behavior collections, behaviors, triggers and actions on objects and styled elements, their lifecycle, and the templates that let styles set them</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-xaml-interactivity" aria-label="ferroui-xaml-interactivity on crates.io">crates.io</a><a href="https://docs.rs/ferroui-xaml-interactivity" aria-label="ferroui-xaml-interactivity on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-xaml-interactions">ferroui-xaml-interactions</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The classic triggers and actions of the FerroUI behaviors: event, data and timer triggers, property, method and command actions, clipboard actions and storage pickers</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-xaml-interactions" aria-label="ferroui-xaml-interactions on crates.io">crates.io</a><a href="https://docs.rs/ferroui-xaml-interactions" aria-label="ferroui-xaml-interactions on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-xaml-interactions-custom">ferroui-xaml-interactions-custom</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The custom behaviors, triggers and actions of FerroUI: about 330 behaviors for specific controls, input, focus, validation, commands, windows, dialogs and services</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-xaml-interactions-custom" aria-label="ferroui-xaml-interactions-custom on crates.io">crates.io</a><a href="https://docs.rs/ferroui-xaml-interactions-custom" aria-label="ferroui-xaml-interactions-custom on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-xaml-interactions-draganddrop">ferroui-xaml-interactions-draganddrop</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Drag and drop behaviors of FerroUI: dragging context data, typed data, panels and files between controls and with the system, drop targets with handlers and commands, file and text drops, tree view drop handling, and an in-process managed drag with a preview window</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-xaml-interactions-draganddrop" aria-label="ferroui-xaml-interactions-draganddrop on crates.io">crates.io</a><a href="https://docs.rs/ferroui-xaml-interactions-draganddrop" aria-label="ferroui-xaml-interactions-draganddrop on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-xaml-interactions-draggable">ferroui-xaml-interactions-draggable</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Draggable behaviors of FerroUI: moving elements in a canvas, in a grid or by a translation, reordering the items of an items control with an optional placeholder, scrolling a scroll viewer while dragging, and the styles that make tab controls, list boxes, canvases and grids draggable</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-xaml-interactions-draggable" aria-label="ferroui-xaml-interactions-draggable on crates.io">crates.io</a><a href="https://docs.rs/ferroui-xaml-interactions-draggable" aria-label="ferroui-xaml-interactions-draggable on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-xaml-interactions-events">ferroui-xaml-interactions-events</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Behaviors and triggers of the input events of FerroUI: a trigger and an abstract behavior per pointer, key, focus, gesture, text input and drag-and-drop routed event</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-xaml-interactions-events" aria-label="ferroui-xaml-interactions-events on crates.io">crates.io</a><a href="https://docs.rs/ferroui-xaml-interactions-events" aria-label="ferroui-xaml-interactions-events on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-xaml-interactions-reactiveui">ferroui-xaml-interactions-reactiveui</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The ReactiveUI behaviors of FerroUI: actions that navigate a ReactiveUI router (navigate, navigate back, navigate and reset, clear the stack, navigate to a view model the service locator resolves) and the trigger that runs its actions when a ReactiveUI interaction is handled</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-xaml-interactions-reactiveui" aria-label="ferroui-xaml-interactions-reactiveui on crates.io">crates.io</a><a href="https://docs.rs/ferroui-xaml-interactions-reactiveui" aria-label="ferroui-xaml-interactions-reactiveui on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-xaml-interactions-responsive">ferroui-xaml-interactions-responsive</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Responsive behaviors of FerroUI: style classes switched by the width, the height and the aspect ratio of a control</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-xaml-interactions-responsive" aria-label="ferroui-xaml-interactions-responsive on crates.io">crates.io</a><a href="https://docs.rs/ferroui-xaml-interactions-responsive" aria-label="ferroui-xaml-interactions-responsive on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="controls" data-new><td class="name"><a href="https://crates.io/crates/ferroui-xaml-behaviors">ferroui-xaml-behaviors</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The behaviors, triggers and actions of FerroUI in one crate: the object model, the classic interactions, the custom behaviors, events, drag and drop, responsive classes and animations, each behind a feature</td><td class="group">Controls and themes</td><td class="links"><a href="https://crates.io/crates/ferroui-xaml-behaviors" aria-label="ferroui-xaml-behaviors on crates.io">crates.io</a><a href="https://docs.rs/ferroui-xaml-behaviors" aria-label="ferroui-xaml-behaviors on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="markup"><td class="name"><a href="https://crates.io/crates/ferroui-build-scan">ferroui-build-scan</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The build-time type model of FerroUI and the source scanner that fills it: what a build script exports of a crate, linking nothing of the framework</td><td class="group">Markup and build</td><td class="links"><a href="https://crates.io/crates/ferroui-build-scan" aria-label="ferroui-build-scan on crates.io">crates.io</a><a href="https://docs.rs/ferroui-build-scan" aria-label="ferroui-build-scan on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="markup" data-new><td class="name"><a href="https://crates.io/crates/ferroui-static-view-locator-build">ferroui-static-view-locator-build</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The generator of ferroui-static-view-locator: the build-script part that maps the view models of a crate to its views and writes the locators</td><td class="group">Markup and build</td><td class="links"><a href="https://crates.io/crates/ferroui-static-view-locator-build" aria-label="ferroui-static-view-locator-build on crates.io">crates.io</a><a href="https://docs.rs/ferroui-static-view-locator-build" aria-label="ferroui-static-view-locator-build on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="markup"><td class="name"><a href="https://crates.io/crates/ferroui-markup">ferroui-markup</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The markup support of FerroUI: binding path parsing and reflection-style bindings</td><td class="group">Markup and build</td><td class="links"><a href="https://crates.io/crates/ferroui-markup" aria-label="ferroui-markup on crates.io">crates.io</a><a href="https://docs.rs/ferroui-markup" aria-label="ferroui-markup on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="markup"><td class="name"><a href="https://crates.io/crates/ferroui-markup-xaml">ferroui-markup-xaml</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The FerroUI XAML runtime library: markup extensions, templates, includes, converters and the runtime helpers of compiled XAML</td><td class="group">Markup and build</td><td class="links"><a href="https://crates.io/crates/ferroui-markup-xaml" aria-label="ferroui-markup-xaml on crates.io">crates.io</a><a href="https://docs.rs/ferroui-markup-xaml" aria-label="ferroui-markup-xaml on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="markup" data-new><td class="name"><a href="https://crates.io/crates/ferroui-protranslate-build">ferroui-protranslate-build</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Deterministic typed translation catalog generation and localization diagnostics for FerroUI</td><td class="group">Markup and build</td><td class="links"><a href="https://crates.io/crates/ferroui-protranslate-build" aria-label="ferroui-protranslate-build on crates.io">crates.io</a><a href="https://docs.rs/ferroui-protranslate-build" aria-label="ferroui-protranslate-build on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="markup"><td class="name"><a href="https://crates.io/crates/xamlx">xamlx</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Rust port of the backend-independent part of XamlX (XAML compiler library)</td><td class="group">Markup and build</td><td class="links"><a href="https://crates.io/crates/xamlx" aria-label="xamlx on crates.io">crates.io</a><a href="https://docs.rs/xamlx" aria-label="xamlx on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="markup"><td class="name"><a href="https://crates.io/crates/ferroui-markup-xaml-loader">ferroui-markup-xaml-loader</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The FerroUI XAML language definition and compiler extensions built on xamlx</td><td class="group">Markup and build</td><td class="links"><a href="https://crates.io/crates/ferroui-markup-xaml-loader" aria-label="ferroui-markup-xaml-loader on crates.io">crates.io</a><a href="https://docs.rs/ferroui-markup-xaml-loader" aria-label="ferroui-markup-xaml-loader on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="markup"><td class="name"><a href="https://crates.io/crates/ferroui-build">ferroui-build</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Build-script support of FerroUI: compiles the markup documents of a crate to Rust source and embeds its assets</td><td class="group">Markup and build</td><td class="links"><a href="https://crates.io/crates/ferroui-build" aria-label="ferroui-build on crates.io">crates.io</a><a href="https://docs.rs/ferroui-build" aria-label="ferroui-build on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="markup" data-new><td class="name"><a href="https://crates.io/crates/ferroui-markup-xaml-winui">ferroui-markup-xaml-winui</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">WinUI XAML compatibility of FerroUI: an opt-in importer from WinUI XAML, its run-time loading entry points and the x:Bind property-path adapter</td><td class="group">Markup and build</td><td class="links"><a href="https://crates.io/crates/ferroui-markup-xaml-winui" aria-label="ferroui-markup-xaml-winui on crates.io">crates.io</a><a href="https://docs.rs/ferroui-markup-xaml-winui" aria-label="ferroui-markup-xaml-winui on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="render" data-new><td class="name"><a href="https://crates.io/crates/ferroui-pretext-contracts">ferroui-pretext-contracts</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Backend contracts for prepared text and glyph output</td><td class="group">Render and text</td><td class="links"><a href="https://crates.io/crates/ferroui-pretext-contracts" aria-label="ferroui-pretext-contracts on crates.io">crates.io</a><a href="https://docs.rs/ferroui-pretext-contracts" aria-label="ferroui-pretext-contracts on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="render" data-new><td class="name"><a href="https://crates.io/crates/ferroui-pretext">ferroui-pretext</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Reusable text preparation, Unicode wrapping and rich inline layout</td><td class="group">Render and text</td><td class="links"><a href="https://crates.io/crates/ferroui-pretext" aria-label="ferroui-pretext on crates.io">crates.io</a><a href="https://docs.rs/ferroui-pretext" aria-label="ferroui-pretext on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="render" data-new><td class="name"><a href="https://crates.io/crates/ferroui-pretext-layout">ferroui-pretext-layout</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Platform-neutral wrap metrics and obstacle-aware column flow for prepared text</td><td class="group">Render and text</td><td class="links"><a href="https://crates.io/crates/ferroui-pretext-layout" aria-label="ferroui-pretext-layout on crates.io">crates.io</a><a href="https://docs.rs/ferroui-pretext-layout" aria-label="ferroui-pretext-layout on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="render"><td class="name"><a href="https://crates.io/crates/ferroui-harfbuzz">ferroui-harfbuzz</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The HarfBuzz text shaping backend of FerroUI</td><td class="group">Render and text</td><td class="links"><a href="https://crates.io/crates/ferroui-harfbuzz" aria-label="ferroui-harfbuzz on crates.io">crates.io</a><a href="https://docs.rs/ferroui-harfbuzz" aria-label="ferroui-harfbuzz on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="render"><td class="name"><a href="https://crates.io/crates/ferroui-metal">ferroui-metal</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The Metal platform contracts of FerroUI: the device, the surface of a top-level and the import of external objects</td><td class="group">Render and text</td><td class="links"><a href="https://crates.io/crates/ferroui-metal" aria-label="ferroui-metal on crates.io">crates.io</a><a href="https://docs.rs/ferroui-metal" aria-label="ferroui-metal on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="render"><td class="name"><a href="https://crates.io/crates/ferroui-opengl">ferroui-opengl</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The OpenGL platform contracts of FerroUI: contexts, surfaces and the entry points the framework itself uses</td><td class="group">Render and text</td><td class="links"><a href="https://crates.io/crates/ferroui-opengl" aria-label="ferroui-opengl on crates.io">crates.io</a><a href="https://docs.rs/ferroui-opengl" aria-label="ferroui-opengl on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="render" data-new><td class="name"><a href="https://crates.io/crates/ferroui-pretext-media">ferroui-pretext-media</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">FerroUI font and shaping services for prepared text</td><td class="group">Render and text</td><td class="links"><a href="https://crates.io/crates/ferroui-pretext-media" aria-label="ferroui-pretext-media on crates.io">crates.io</a><a href="https://docs.rs/ferroui-pretext-media" aria-label="ferroui-pretext-media on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="render"><td class="name"><a href="https://crates.io/crates/ferroui-vulkan">ferroui-vulkan</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The Vulkan platform contracts of FerroUI: the instance, the device, the graphics context, the swap chain render target of a surface and the import of external objects</td><td class="group">Render and text</td><td class="links"><a href="https://crates.io/crates/ferroui-vulkan" aria-label="ferroui-vulkan on crates.io">crates.io</a><a href="https://docs.rs/ferroui-vulkan" aria-label="ferroui-vulkan on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="render"><td class="name"><a href="https://crates.io/crates/ferroui-skia">ferroui-skia</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The Skia render backend of FerroUI: Graphite on Metal, Ganesh on WebGL and raster</td><td class="group">Render and text</td><td class="links"><a href="https://crates.io/crates/ferroui-skia" aria-label="ferroui-skia on crates.io">crates.io</a><a href="https://docs.rs/ferroui-skia" aria-label="ferroui-skia on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="render"><td class="name"><a href="https://crates.io/crates/ferroui-vello">ferroui-vello</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The Vello render backend: the render contracts of the base library on kurbo, peniko and the renderers of the Vello project</td><td class="group">Render and text</td><td class="links"><a href="https://crates.io/crates/ferroui-vello" aria-label="ferroui-vello on crates.io">crates.io</a><a href="https://docs.rs/ferroui-vello" aria-label="ferroui-vello on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-microcom">ferroui-microcom</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The COM-style interop runtime of FerroUI, which its native platform backend is built on</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-microcom" aria-label="ferroui-microcom on crates.io">crates.io</a><a href="https://docs.rs/ferroui-microcom" aria-label="ferroui-microcom on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-freedesktop">ferroui-freedesktop</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The FreeDesktop services of FerroUI for Linux desktops: D-Bus input methods, portals, menus, tray icons and accessibility over AT-SPI</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-freedesktop" aria-label="ferroui-freedesktop on crates.io">crates.io</a><a href="https://docs.rs/ferroui-freedesktop" aria-label="ferroui-freedesktop on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-android">ferroui-android</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The Android platform of FerroUI: a view in an activity, rendered through EGL or to the native window</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-android" aria-label="ferroui-android on crates.io">crates.io</a><a href="https://docs.rs/ferroui-android" aria-label="ferroui-android on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-native">ferroui-native</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The macOS platform of FerroUI: windows, input, clipboard, drag and drop, menus and Metal and OpenGL graphics over a native library</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-native" aria-label="ferroui-native on crates.io">crates.io</a><a href="https://docs.rs/ferroui-native" aria-label="ferroui-native on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-headless">ferroui-headless</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The headless platform of FerroUI: windows without a screen, driven by simulated input, for tests</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-headless" aria-label="ferroui-headless on crates.io">crates.io</a><a href="https://docs.rs/ferroui-headless" aria-label="ferroui-headless on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-headless-vnc">ferroui-headless-vnc</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The VNC server of the headless platform of FerroUI: an application runs without a screen and is seen and driven through a VNC viewer</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-headless-vnc" aria-label="ferroui-headless-vnc on crates.io">crates.io</a><a href="https://docs.rs/ferroui-headless-vnc" aria-label="ferroui-headless-vnc on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-ios">ferroui-ios</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The iOS platform of FerroUI: a UIKit view, touch input and Metal and OpenGL ES graphics</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-ios" aria-label="ferroui-ios on crates.io">crates.io</a><a href="https://docs.rs/ferroui-ios" aria-label="ferroui-ios on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-linuxframebuffer">ferroui-linuxframebuffer</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The Linux framebuffer platform of FerroUI: one full-screen top-level on a framebuffer device or a KMS output, with input from the kernel&#x27;s input devices</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-linuxframebuffer" aria-label="ferroui-linuxframebuffer on crates.io">crates.io</a><a href="https://docs.rs/ferroui-linuxframebuffer" aria-label="ferroui-linuxframebuffer on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-browser">ferroui-browser</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The browser platform of FerroUI: a top-level in an element of a web page, rendered with WebGL or to a 2D canvas</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-browser" aria-label="ferroui-browser on crates.io">crates.io</a><a href="https://docs.rs/ferroui-browser" aria-label="ferroui-browser on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-win32">ferroui-win32</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The Windows platform backend: windows, the message loop, input, screens and the software surface over the Win32 API</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-win32" aria-label="ferroui-win32 on crates.io">crates.io</a><a href="https://docs.rs/ferroui-win32" aria-label="ferroui-win32 on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-winui">ferroui-winui</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">FerroUI content inside a WinUI 3 (Windows App SDK) application: a swap chain panel with pointer, keyboard and text input, cursors, drag and drop and automation</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-winui" aria-label="ferroui-winui on crates.io">crates.io</a><a href="https://docs.rs/ferroui-winui" aria-label="ferroui-winui on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-x11">ferroui-x11</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The X11 windowing platform of FerroUI for Linux</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-x11" aria-label="ferroui-x11 on crates.io">crates.io</a><a href="https://docs.rs/ferroui-x11" aria-label="ferroui-x11 on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-desktop">ferroui-desktop</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The desktop entry point of FerroUI: platform detection with the default render and text shaping backends</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-desktop" aria-label="ferroui-desktop on crates.io">crates.io</a><a href="https://docs.rs/ferroui-desktop" aria-label="ferroui-desktop on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="platforms"><td class="name"><a href="https://crates.io/crates/ferroui-wayland">ferroui-wayland</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The Wayland platform of FerroUI for Linux: toplevels and popups over xdg-shell, pointer, keyboard, touch and text input, clipboard and drag and drop, rendered through shared memory, EGL or a dmabuf swap chain</td><td class="group">Platforms</td><td class="links"><a href="https://crates.io/crates/ferroui-wayland" aria-label="ferroui-wayland on crates.io">crates.io</a><a href="https://docs.rs/ferroui-wayland" aria-label="ferroui-wayland on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="tools" data-new><td class="name"><a href="https://crates.io/crates/ferroui-protranslate-studio">ferroui-protranslate-studio</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Portable localization catalog editing, persistence and AI translation workflow</td><td class="group">Tools</td><td class="links"><a href="https://crates.io/crates/ferroui-protranslate-studio" aria-label="ferroui-protranslate-studio on crates.io">crates.io</a><a href="https://docs.rs/ferroui-protranslate-studio" aria-label="ferroui-protranslate-studio on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="tools"><td class="name"><a href="https://crates.io/crates/ferroui-remote-protocol">ferroui-remote-protocol</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">The remote protocol of FerroUI: the messages of the previewer and of remote rendering, their BSON serialization and the transports that carry them</td><td class="group">Tools</td><td class="links"><a href="https://crates.io/crates/ferroui-remote-protocol" aria-label="ferroui-remote-protocol on crates.io">crates.io</a><a href="https://docs.rs/ferroui-remote-protocol" aria-label="ferroui-remote-protocol on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="tools" data-new><td class="name"><a href="https://crates.io/crates/ferroui-hot-patch">ferroui-hot-patch</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Development-only FerroUI hot-patch support</td><td class="group">Tools</td><td class="links"><a href="https://crates.io/crates/ferroui-hot-patch" aria-label="ferroui-hot-patch on crates.io">crates.io</a><a href="https://docs.rs/ferroui-hot-patch" aria-label="ferroui-hot-patch on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="tools"><td class="name"><a href="https://crates.io/crates/microcom-codegen">microcom-codegen</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Code generator of the FerroUI interop runtime: a C++ header and Rust bindings from an interface definition file</td><td class="group">Tools</td><td class="links"><a href="https://crates.io/crates/microcom-codegen" aria-label="microcom-codegen on crates.io">crates.io</a><a href="https://docs.rs/microcom-codegen" aria-label="microcom-codegen on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="tools" data-new><td class="name"><a href="https://crates.io/crates/ferroui-hot-reload">ferroui-hot-reload</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Development-only FerroUI hot-reload support</td><td class="group">Tools</td><td class="links"><a href="https://crates.io/crates/ferroui-hot-reload" aria-label="ferroui-hot-reload on crates.io">crates.io</a><a href="https://docs.rs/ferroui-hot-reload" aria-label="ferroui-hot-reload on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="tools" data-new><td class="name"><a href="https://crates.io/crates/ferroui-inspect">ferroui-inspect</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Opt-in application inspection core for FerroUI, shared by its MCP server and its Chrome DevTools Protocol endpoint</td><td class="group">Tools</td><td class="links"><a href="https://crates.io/crates/ferroui-inspect" aria-label="ferroui-inspect on crates.io">crates.io</a><a href="https://docs.rs/ferroui-inspect" aria-label="ferroui-inspect on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="tools" data-new><td class="name"><a href="https://crates.io/crates/ferroui-mcp">ferroui-mcp</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Opt-in application inspection MCP server for FerroUI</td><td class="group">Tools</td><td class="links"><a href="https://crates.io/crates/ferroui-mcp" aria-label="ferroui-mcp on crates.io">crates.io</a><a href="https://docs.rs/ferroui-mcp" aria-label="ferroui-mcp on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+              <tr data-group="tools"><td class="name"><a href="https://crates.io/crates/ferroui-designer-support">ferroui-designer-support</a><br><span class="badge rust new">New in <span data-version></span></span></td><td class="desc">Designer support of FerroUI: the loader of the previewed window and the previewer that talks to an IDE over the remote protocol</td><td class="group">Tools</td><td class="links"><a href="https://crates.io/crates/ferroui-designer-support" aria-label="ferroui-designer-support on crates.io">crates.io</a><a href="https://docs.rs/ferroui-designer-support" aria-label="ferroui-designer-support on docs.rs">docs.rs</a><span class="pending">With the release</span></td></tr>
+<!-- crates:end -->
+            </tbody>
+          </table>
+          </div>
+          <p class="no-results" id="crate-empty" hidden>No crate matches the search.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status -->
+    <section id="status" aria-labelledby="status-title">
+      <div class="wrap">
+        <div class="section-head rise">
+          <span class="eyebrow">Project status</span>
+          <h2 id="status-title">Where FerroUI stands</h2>
+          <p>FerroUI runs on macOS, Windows, Linux (X11, Wayland and the framebuffer), iOS, Android and in the browser. It was verified in continuous integration, in virtual machines, in the iOS simulator and on the Android emulator, not on a range of real devices.</p>
+        </div>
+        <div class="status-grid reveal-scope rise">
+          <div class="card reveal status-item">
+            <h3><span class="dot cool" aria-hidden="true"></span>API within 0.4</h3>
+            <p>Within 0.4 the public API is kept; 0.5.0 may change it. The work towards 0.5 is published as previews, which may change any part of the public API.</p>
+          </div>
+          <div class="card reveal status-item">
+            <h3><span class="dot" aria-hidden="true"></span>Skia is the reference</h3>
+            <p>Skia is the default and reference renderer, with HarfBuzz for text shaping.</p>
+          </div>
+          <div class="card reveal status-item">
+            <h3><span class="dot warn" aria-hidden="true"></span>Vello is experimental</h3>
+            <p>The Vello backend has CPU, hybrid and GPU modes and is measured against Skia; its open work is in <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/vello-backend.md">vello-backend.md</a>.</p>
+          </div>
+          <div class="card reveal status-item">
+            <h3><span class="dot warn" aria-hidden="true"></span>Hot reload is experimental</h3>
+            <p>A development engine with explicit adapters and release gates; parts of the build integration of XAML are open.</p>
+          </div>
+        </div>
+
+        <div class="card table-wrap rise">
+          <table class="data platform-table">
+            <caption class="visually-hidden">What works on each platform and how it was verified</caption>
+            <thead><tr><th scope="col">Platform</th><th scope="col">What works</th><th scope="col">How it was verified</th></tr></thead>
+            <tbody>
+              <tr><td>macOS</td><td data-label="Works">Windows, input and input methods, clipboard, drag and drop, menus, tray icon, storage pickers, accessibility; Metal (default), OpenGL and software rendering</td><td data-label="Verified">CI and the development machine; the storage pickers and a screen reader not exercised</td></tr>
+              <tr><td>Windows</td><td data-label="Works">Windows, input methods and the input pane, clipboard and drag and drop, file dialogs, tray icon, UI Automation; software, ANGLE, WGL, DirectComposition, Windows.UI.Composition (with blur, acrylic and Mica) and a DXGI swap chain; Vulkan behind a feature</td><td data-label="Verified">CI (x64 and ARM64) and a Windows 11 ARM64 virtual machine; screen readers and the look of acrylic and Mica on a real desktop not verified</td></tr>
+              <tr><td>WinUI 3 hosting</td><td data-label="Works">FerroUI content in a swap chain panel of a WinUI 3 window, with input, text input, cursors, drag and drop and automation</td><td data-label="Verified">A smoke run of its sample in a virtual machine; input, drag and drop and a UI Automation client not verified</td></tr>
+              <tr><td>Linux, X11</td><td data-label="Works">Input methods (XIM, IBus, Fcitx), clipboard, drag and drop, desktop portals, GTK file dialogs, menus and tray icon over D-Bus, accessibility over AT-SPI; software, GLX, EGL and Vulkan</td><td data-label="Verified">CI under Xvfb and an Ubuntu virtual machine; no screen reader</td></tr>
+              <tr><td>Linux, Wayland</td><td data-label="Works">Opt-in: toplevels with server-side or drawn decorations, popups, pointer, keyboard, touch and text input, clipboard, drag and drop, fractional scaling; shared memory, EGL or a dmabuf swap chain</td><td data-label="Verified">CI under headless sway and a virtual machine; a desktop compositor with input and the dmabuf swap chain on a GPU not verified</td></tr>
+              <tr><td>Linux framebuffer</td><td data-label="Works">One full-screen view on <code>/dev/fb0</code> or a KMS output (OpenGL through EGL on GBM), with input through libinput or the event devices</td><td data-label="Verified">Virtual devices only (vkms, uinput) in CI and a virtual machine; not on a board</td></tr>
+              <tr><td>iOS</td><td data-label="Works">A view over Metal or OpenGL ES, touch, keyboard and text input, clipboard, storage, accessibility</td><td data-label="Verified">The simulator; no signed device build, no VoiceOver</td></tr>
+              <tr><td>Android</td><td data-label="Works">A view over EGL, software or Vulkan, touch, keyboard and the input method, lifecycle, clipboard, storage, accessibility</td><td data-label="Verified">The emulator (API 36); no device, no TalkBack</td></tr>
+              <tr><td>Browser</td><td data-label="Works">A view in a web page rendered with WebGL 2 or a 2D canvas, input, clipboard, storage; an opt-in build renders from a worker thread</td><td data-label="Verified">Headless Chrome in CI; other browsers not verified</td></tr>
+              <tr><td>Headless</td><td data-label="Works">Windows without a screen for tests, and a VNC server to see and drive an application remotely</td><td data-label="Verified">Tests; the VNC server with a test client, not with real viewers</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tab-note status-note rise">The state of each subsystem is in <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/CRITICAL-PATH.md">CRITICAL-PATH.md</a>, and the checks that still need real hardware or a person at the screen in <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/porting/manual-verification.md">manual-verification.md</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="#top" aria-label="FerroUI, back to the top">
+            <img src="assets/img/logo.svg" width="28" height="28" alt="">
+            <span>Ferro<span class="ui">UI</span></span>
+          </a>
+          <p>A cross-platform UI framework for Rust, with XAML, a WinUI 3 theme and native platform backends.</p>
+        </div>
+        <nav aria-labelledby="footer-project">
+          <h2 id="footer-project">Project</h2>
+          <ul>
+            <li><a href="https://github.com/wieslawsoltes/FerroUI">GitHub</a></li>
+            <li><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/CHANGELOG.md">Changelog</a></li>
+            <li><a href="https://github.com/wieslawsoltes/FerroUI#contributing">Contributing</a></li>
+            <li><a href="https://github.com/wieslawsoltes/FerroUI/issues">Issues</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="footer-docs">
+          <h2 id="footer-docs">Documentation</h2>
+          <ul>
+            <li><a href="https://github.com/wieslawsoltes/FerroUI#readme">README</a></li>
+            <li><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/declarative-ui.md">Declarative UI</a></li>
+            <li><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/mvvm.md">MVVM</a></li>
+            <li><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/release.md">Releasing</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="footer-apps">
+          <h2 id="footer-apps">Applications</h2>
+          <ul>
+            <li><a href="https://github.com/FerroUI">The FerroUI organization</a></li>
+            <li><a href="https://github.com/wieslawsoltes/FerroUI/blob/main/docs/apps.md">App template</a></li>
+            <li><a href="https://t.me/+yQ69t8M7xgwyOGZk">Community chat</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <span>FerroUI is licensed under the <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/LICENSE">MIT License</a>. Attributions are in <a href="https://github.com/wieslawsoltes/FerroUI/blob/main/NOTICE.md">NOTICE.md</a>.</span>
+        <span><a href="https://github.com/FerroUI/website">Source of this site</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <p class="visually-hidden" id="copy-status" role="status" aria-live="polite"></p>
+</body>
+</html>
