@@ -8,7 +8,7 @@
 // previewVersion  the newest version on crates.io while the release is pending.
 window.FERROUI_SITE = {
   version: "0.4.0",
-  releasePending: true,
+  releasePending: false,
   previewVersion: "0.4.0-preview.1"
 };
 
